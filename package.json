@@ -1,0 +1,31 @@
+{
+  "name": "react-d3-heatmap",
+  "version": "0.0.3",
+  "description": "A set of components to display data as heat map",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thebarda/react-d3-heatmap.git"
+  },
+  "keywords": [
+    "heatmap",
+    "d3",
+    "React",
+    "component"
+  ],
+  "author": "Tom Darneix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thebarda/react-d3-heatmap/issues"
+  },
+  "homepage": "https://github.com/Thebarda/react-d3-heatmap#readme",
+  "dependencies": {
+    "d3": "^5.7.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
+  }
+}
