@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/ && webpack --config webpack.config.js",
-    "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000"
+    "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000",
+    "lint": "prettier src/**/*.js --write '{app,__{tests,mocks}__}/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "html-webpack-plugin": "^3.2.0",
     "path": "^0.12.7",
+    "prettier": "1.14.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
