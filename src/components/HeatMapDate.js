@@ -25,10 +25,10 @@ export default class HeatMapDate extends Component {
 
 	constructor(props) {
 		super(props)
-	}
-
-	render() {
-		const {
+    }
+    
+    componentDidMount() {
+        const {
 			startDate,
 			endDate,
 			data,
@@ -39,7 +39,7 @@ export default class HeatMapDate extends Component {
 			marginBottom,
 			displayLegend,
 		} = this.props
-		const svg = d3.select(".heatMapDateClass")
+        const svg = d3.selectAll(".heatMapDateClass")
 		const tmpBufferDate = new Date(startDate)
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDate.getDay())
 		const bufferDate = new Date(tmpBufferDate)
@@ -50,23 +50,27 @@ export default class HeatMapDate extends Component {
 			if (count === undefined && bufferDate.getTime() < startDate.getTime()) {
 				finalColor = defaultColor
 			} else if (bufferDate.getTime() >= startDate.getTime()) {
-				finalColor = colors.some(c => c.count === count)
-			}
+				finalColor = colors.find(c => c.count === count)
+            }
+            console.log(finalColor)
 			svg.append("rect")
-				.attr("width", width)
-				.attr("height", width)
+				.attr("width", rectWidth)
+				.attr("height", rectWidth)
 				.attr("x", () => {
-					return Math.floor(i / 7) * (width + marginLeft)
+					return Math.floor(i / 7) * (rectWidth + marginLeft)
 				})
 				.attr("y", () => {
-					return (i % 7) * (width + marginBottom)
+					return (i % 7) * (rectWidth + marginBottom)
 				})
 				.attr("fill", finalColor)
 			bufferDate.setDate(bufferDate.getDate() + 1)
-		}
+        }
+    }
+
+	render() {
 		return (
 			<div>
-				<svg className="heatMapDateClass" />
+				<svg className="heatMapDateClass" width="1400" height="700"/>
 			</div>
 		)
 	}
