@@ -1,54 +1,73 @@
 import React, { Component } from "react"
-import PropTypes from 'prop-types'
-import d3 from 'd3'
+import PropTypes from "prop-types"
+import * as d3 from "d3"
 
 export default class HeatMapDate extends Component {
+	static propTypes = {
+		startDate: PropTypes.instanceOf(Date).isRequired,
+		endDate: PropTypes.instanceOf(Date).isRequired,
+		data: PropTypes.instanceOf(Map).isRequired, // Map<Date, number>
+		colors: PropTypes.instanceOf(Array).isRequired,
+		defaultColor: PropTypes.string,
+		rectWidth: PropTypes.number,
+		marginLeft: PropTypes.number,
+		marginBottom: PropTypes.number,
+		displayLegend: PropTypes.bool,
+	}
 
-    static propTypes = {
-        startDate: PropTypes.instanceOf(Date).isRequired,
-        endDate: PropTypes.instanceOf(Date).isRequired,
-        data: PropTypes.instanceOf(Array).isRequired,
-        colors: PropTypes.instanceOf(Array).isRequired,
-        width: PropTypes.number,
-        marginLeft: PropTypes.number,
-        marginBottom: PropTypes.number,
-        displayLegend: PropTypes.bool,
-    }
+	static defaultProps = {
+		marginLeft: 2,
+		marginBottom: 2,
+		displayLegend: true,
+		rectWidth: 7,
+		defaultColor: "#cdcdcd",
+	}
 
-    static defaultProps = {
-        marginLeft: 5,
-        marginBottom: 5,
-        displayLegend: true,
-        width: 7,
-    }
+	constructor(props) {
+		super(props)
+	}
 
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        const {
-            startDate,
-            endDate,
-            data,
-            colors,
-            width,
-            marginLeft,
-            marginBottom,
-            displayLegend
-        } = this.props
-        //const svg = d3.select('.heatMapDateClass')
-        const tmpBufferDate = new Date(startDate)
-        tmpBufferDate.setDate(tmpBufferDate.getDate() - startDate.getDay())
-        const bufferDate = new Date(tmpBufferDate)
-        const nbDayDiff = (startDate.getTime() - endDate.getTime()) / 1000 / 60 / 60 / 24
-        for (let i = 0; i < nbDayDiff; i++) {
-            
-        }
-        return (
-            <div>
-                <svg className="heatMapDateClass"></svg>
-            </div>
-        )
-    }
+	render() {
+		const {
+			startDate,
+			endDate,
+			data,
+			colors,
+			defaultColor,
+			rectWidth,
+			marginLeft,
+			marginBottom,
+			displayLegend,
+		} = this.props
+		const svg = d3.select(".heatMapDateClass")
+		const tmpBufferDate = new Date(startDate)
+		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDate.getDay())
+		const bufferDate = new Date(tmpBufferDate)
+		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
+		for (let i = 0; i < nbDayDiff + 1; i++) {
+			const count = data.get(bufferDate)
+			let finalColor = "#FFFFFF"
+			if (count === undefined && bufferDate.getTime() < startDate.getTime()) {
+				finalColor = defaultColor
+			} else if (bufferDate.getTime() >= startDate.getTime()) {
+				finalColor = colors.some(c => c.count === count)
+			}
+			svg.append("rect")
+				.attr("width", width)
+				.attr("height", width)
+				.attr("x", () => {
+					return Math.floor(i / 7) * (width + marginLeft)
+				})
+				.attr("y", () => {
+					return (i % 7) * (width + marginBottom)
+				})
+				.attr("fill", finalColor)
+			bufferDate.setDate(bufferDate.getDate() + 1)
+		}
+		return (
+			<div>
+				<svg className="heatMapDateClass" />
+			</div>
+		)
+	}
 }

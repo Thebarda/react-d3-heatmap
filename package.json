@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/ && webpack --config webpack.config.js",
     "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000",
-    "lint": "prettier src/**/*.js --write '{app,__{tests,mocks}__}/**/*.js'"
+    "lint": "prettier --write 'src/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "dependencies": {
     "d3": "^5.7.0",
     "html-loader": "^0.5.5",
+    "pretty-quick": "^1.6.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0"

@@ -1,16 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { HeatMapDate } from './index'
+import React from "react"
+import ReactDOM from "react-dom"
+import { HeatMapDate } from "./index"
 //Here is the playground
 //You can test your code here
-const startDate = new Date()
 const endDate = new Date()
-endDate.setFullYear(startDate.getFullYear() - 1)
+const startDate = new Date()
+startDate.setFullYear(endDate.getFullYear() - 1)
 ReactDOM.render(
-    <HeatMapDate
-        startDate={startDate}
-        endDate={endDate}
-        data={[]}
-        colors={[]}
-    />
-    , document.getElementById("index"));
+	<HeatMapDate startDate={startDate} endDate={endDate} data={[]} colors={[]} />,
+	document.getElementById("index")
+)
+
+const setDate = (dateStart, dateEnd, nb) => {
+	for (let i = 0; i < nb; i++) {}
+}
