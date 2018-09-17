@@ -9,7 +9,7 @@ install:
   - npm i
 
 script:
-  - npm run litn
+  - npm run lint
 
 notifications:
   email: false
