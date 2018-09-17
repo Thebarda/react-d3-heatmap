@@ -6,7 +6,7 @@ cache:
     - "node_modules"
 
 install:
-  - mpn i
+  - npm i
 
 script:
   - npm run litn
