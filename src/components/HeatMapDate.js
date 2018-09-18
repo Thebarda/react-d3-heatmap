@@ -52,7 +52,6 @@ export default class HeatMapDate extends Component {
 			} else if (bufferDate.getTime() >= startDate.getTime()) {
 				finalColor = colors.find(c => c.count === count)
             }
-            console.log(finalColor)
 			svg.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
