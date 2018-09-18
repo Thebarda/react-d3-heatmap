@@ -52,6 +52,7 @@
     "enzyme-adapter-react-16": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
+    "jest-prop-type-error": "^1.1.0",
     "path": "^0.12.7",
     "prettier": "1.14.2",
     "prop-types": "^15.6.0",
@@ -62,5 +63,10 @@
     "webpack": "^4.17.1",
     "webpack-cli": "^2.1.5",
     "webpack-dev-server": "^3.1.0"
-  }
+  },
+  "jest": {
+    "setupFiles": [
+      "jest-prop-type-error"
+    ]
+  } 
 }

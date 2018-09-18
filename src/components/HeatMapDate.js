@@ -49,7 +49,7 @@ export default class HeatMapDate extends Component {
 		} = this.props
 
 		if (!data || !startDate || !endDate || !colors) {
-			return
+			throw new TypeError('A required prop should not be null (data, startDate, endDate, colors)')
 		}
 
 		const svg = d3.select(this.state.svgElem)

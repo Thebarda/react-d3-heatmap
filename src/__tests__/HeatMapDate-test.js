@@ -20,6 +20,11 @@ test('it should render without throwing error', () => {
 
 test('it should throw error because there is no data required prop', () => {
     const { data, startDate, endDate } = setUp(2017, 1, 2, 2018, 1, 2, 231)
-    const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} colors={[]} />)
-    expect(wrapper.prop(data)).toEqual(undefined)
+    let error = null
+    try {
+        const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} colors={[]} />)
+    } catch (e) {
+        error = e
+    }
+    expect(error).toBeInstanceOf(Error)
 })
