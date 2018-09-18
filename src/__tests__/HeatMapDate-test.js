@@ -12,8 +12,14 @@ function setUp(yearStart, monthStart, dayStart, yearEnd, monthEnd, dayEnd, nb) {
     return { data, startDate, endDate }
 }
 
-test('it should render withour throwing error', () => {
+test('it should render without throwing error', () => {
     const { data, startDate, endDate } = setUp(2017, 1, 2, 2018, 1, 2, 231)
     const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={[]} />)
     expect(wrapper).toMatchSnapshot()
+})
+
+test('it should throw error because there is no data required prop', () => {
+    const { data, startDate, endDate } = setUp(2017, 1, 2, 2018, 1, 2, 231)
+    const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} colors={[]} />)
+    expect(wrapper.prop(data)).toEqual(undefined)
 })
