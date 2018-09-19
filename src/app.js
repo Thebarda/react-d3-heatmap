@@ -6,7 +6,7 @@ import { setData } from './utils'
 //You can test your code here
 const endDate = new Date()
 const startDate = new Date()
-startDate.setFullYear(endDate.getFullYear() - 1)
+startDate.setDate(startDate.getDate()-1)
 const data = setData(startDate, endDate, 231)
 
 ReactDOM.render(

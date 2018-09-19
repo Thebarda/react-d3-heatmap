@@ -47,20 +47,15 @@ export default class HeatMapDate extends Component {
 			marginBottom,
 			displayLegend,
 		} = this.props
-
-		if (!data || !startDate || !endDate || !colors) {
-			throw new TypeError('A required prop should not be null (data, startDate, endDate, colors)')
-		}
-
 		const svg = d3.select(this.state.svgElem)
 		const tmpBufferDate = new Date(startDate)
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDate.getDay())
 		const bufferDate = new Date(tmpBufferDate)
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		for (let i = 0; i < nbDayDiff + 1; i++) {
+		for (let i = 0; i < nbDayDiff; i++) {
 			const count = data.get(bufferDate)
 			let finalColor = "#FFFFFF"
-			if (count === undefined && bufferDate.getTime() < startDate.getTime()) {
+			if (count === undefined && bufferDate.getTime() >= startDate.getTime()) {
 				finalColor = defaultColor
 			} else if (bufferDate.getTime() >= startDate.getTime()) {
 				finalColor = colors.find(c => c.count === count)
@@ -68,6 +63,7 @@ export default class HeatMapDate extends Component {
 			svg.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
+				.attr("class", 'dayRect')
 				.attr("x", () => {
 					return Math.floor(i / 7) * (rectWidth + marginLeft)
 				})

@@ -4,7 +4,7 @@
   "description": "A set of components to display data as heat map",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest src/__tests__",
+    "test": "jest src/__tests__ --coverage",
     "tests": "npm run test -- -u",
     "build": "rm -rf dist/ && webpack --config webpack.config.js",
     "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000",
@@ -47,6 +47,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.19",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
@@ -68,5 +69,5 @@
     "setupFiles": [
       "jest-prop-type-error"
     ]
-  } 
+  }
 }
