@@ -28,6 +28,7 @@
   "homepage": "https://github.com/Thebarda/react-d3-heatmap#readme",
   "dependencies": {
     "d3": "^5.7.0",
+    "d3-tip": "^0.9.1",
     "html-loader": "^0.5.5",
     "pretty-quick": "^1.6.0",
     "prop-types": "^15.6.2",
