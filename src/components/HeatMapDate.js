@@ -9,8 +9,8 @@ export default class HeatMapDate extends Component {
 	static propTypes = {
 		startDate: PropTypes.instanceOf(Date).isRequired,
 		endDate: PropTypes.instanceOf(Date).isRequired,
-		data: PropTypes.instanceOf(Array).isRequired, // Map<Date, number>
-		colors: PropTypes.instanceOf(Map).isRequired,
+		data: PropTypes.instanceOf(Array).isRequired,
+		colors: PropTypes.instanceOf(Array).isRequired,
 		defaultColor: PropTypes.string,
 		rectWidth: PropTypes.number,
 		marginLeft: PropTypes.number,
@@ -78,13 +78,19 @@ export default class HeatMapDate extends Component {
 			if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
 				finalColor = defaultColor
 			} else if (bufferDate.getTime() >= startDateYesterday.getTime()) {
-				finalColor = colors.get(objMatch.count)
-				if (finalColor === undefined) {
-					colors.forEach((color, count) => {
-						if (!maxCount || maxCount < count) maxCount = count
-					})
-					finalColor = colors.get(maxCount)
+				finalColor = colors.filter(c => c.count <= objMatch.count)
+				if (finalColor.length === 0) {
+					finalColor = defaultColor
+				} else {
+					finalColor = finalColor[finalColor.length - 1].color
 				}
+				/* finalColor = finalColor.length > 0 ? finalColor[finalColor.length].color : undefined
+				if (finalColor === undefined) {
+					colors.map(c => {
+						if (!maxCount || maxCount < c.count) maxCount = c.count
+					})
+					finalColor = colors.find(c => c.count === maxCount).color
+				} */
 			}
 			const today = new Date(bufferDate.getTime())
 			dataset.push({ date: today, count: objMatch ? objMatch.count : maxCount || 0, color: finalColor, i })
@@ -133,39 +139,38 @@ export default class HeatMapDate extends Component {
 
 		if (displayLegend) {
 			const svgLegend = d3.select(this.state.svgLegend)
-			svgLegend.attr("width", ((rectWidth + marginLeft) * colors.size + 80) + 50).attr("height", 30)
+			svgLegend.attr("width", ((rectWidth + marginLeft) * colors.size + 90) + 50).attr("height", 30)
 			svgLegend.append('text')
 				.text("Legend :")
 				.attr("x", 0)
 				.attr("y", 20)
 				.attr("font-size", 18)
-			const colorsArray = _.toArray(colors)
 
 			const tip = d3Tip()
 				.attr('class', 'd3-tip')
 				.offset([-8, 0])
 				.html(d => {
 					return "<div style={{ fontSize: '15' }}>" +
-					d[0] +
+					d.count +
 					"</div>"
 				})
 			svgLegend.call(tip)
 
 			svgLegend.selectAll("rect")
-				.data(colorsArray)
+				.data(colors)
 				.enter()
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("x", (d, i) => (rectWidth + marginLeft) * i  + 70)
-				.attr("y", 6)
-				.attr("fill", d => d[1])
+				.attr("x", (d, i) => (rectWidth + marginLeft) * i  + 76)
+				.attr("y", 15 - (rectWidth / 2))
+				.attr("fill", d => d.color)
 				.on('mouseover', tip.show)
 				.on('mouseout', tip.hide)
 		}
 
 		return (
-			<div style={{ width: 'auto', height: 'auto' }}>
+			<div style={{ width: 'auto', height: 'auto' }} id="react-d3-heatMap">
 				<svg style={{ display: 'block' }} ref={elem => {if (!this.state.svgElem) this.setState({ svgElem: elem })}} />
 				<svg style={{ display: 'block' }} ref={elem => {if (!this.state.svgLegend) this.setState({ svgLegend: elem })}} />
 			</div>

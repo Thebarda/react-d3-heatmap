@@ -1,10 +1,13 @@
+#react-d3-heatMap {
+    font-family: Arial, Helvetica, sans-serif
+}
+
 .d3-tip {
     line-height: 1;
     padding: 6px;
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
-    border-radius: 4px;
-    font-family: Arial, Helvetica, sans-serif
+    border-radius: 4px
 }
 
   /* Creates a small triangle extender for the tooltip */

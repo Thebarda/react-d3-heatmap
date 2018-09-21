@@ -8,16 +8,13 @@ const endDate = new Date()
 const startDate = new Date()
 startDate.setFullYear(startDate.getFullYear()-1)
 const data = setData(startDate, endDate, 231)
-const colors = new Map()
-colors.set(1, "#33cc33")
-colors.set(2, "#66ff33")
-colors.set(3, "#99ff33")
-colors.set(4, "#ccff33")
-colors.set(5, "#ffff00")
-colors.set(6, "#ffcc00")
-colors.set(7, '#ff9933')
-colors.set(8, "#ff6600")
-colors.set(9, "#ff0000")
+const colors = []
+colors.push({ count: 2, color: "#66ff33" })
+colors.push({ count: 3, color: "#99ff33" })
+colors.push({ count: 4, color: "#ccff33" })
+colors.push({ count: 6, color: "#ffcc00" })
+colors.push({ count: 7, color: '#ff9933' })
+colors.push({ count: 9, color: "#ff0000" })
 
 ReactDOM.render(
 	<HeatMapDate
