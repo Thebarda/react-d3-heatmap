@@ -20,6 +20,13 @@ colors.set(8, "#ff6600")
 colors.set(9, "#ff0000")
 
 ReactDOM.render(
-	<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={colors} />,
+	<HeatMapDate
+		startDate={startDate}
+		endDate={endDate}
+		data={data}
+		colors={colors}
+		rectWidth={15}
+		displayLegend
+	/>,
 	document.getElementById("index")
 )
