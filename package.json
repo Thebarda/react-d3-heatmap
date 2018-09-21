@@ -37,8 +37,6 @@
   "peerDependencies": {
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
-    "lodash": "^4.17.11",
-    "pretty-quick": "^1.6.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0"
