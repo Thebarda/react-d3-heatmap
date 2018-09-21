@@ -2,3 +2,7 @@ src
 examples
 .babelrc
 webpack.config.js
+webpack-dev.config.js
+.babelrc
+.prettierrc
+.travis.yml
