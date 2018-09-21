@@ -1,3 +1,1 @@
-import HeatMapDate from "./components/HeatMapDate"
-
-export default HeatMapDate
+export * from "./components/HeatMapDate"
