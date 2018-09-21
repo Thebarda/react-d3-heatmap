@@ -61,3 +61,5 @@ typings/
 .next
 
 src/__tests__/__snapshots__
+
+dist/
