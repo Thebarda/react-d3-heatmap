@@ -6,3 +6,5 @@ webpack-dev.config.js
 .babelrc
 .prettierrc
 .travis.yml
+coverage/
+yarn.lock
