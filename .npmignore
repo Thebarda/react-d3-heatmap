@@ -1,10 +1,11 @@
-src
 examples
-.babelrc
-webpack.config.js
-webpack-dev.config.js
-.babelrc
 .prettierrc
 .travis.yml
 coverage/
 yarn.lock
+examples
+.babelrc
+.gitignore
+webpack.config.js
+webpack-dev.config.js
+src

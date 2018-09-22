@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.5.0",
-    "react-d3-heatmap": "^0.0.8",
+    "react-d3-heatmap": "^0.0.15",
     "react-dom": "^16.5.0",
     "react-scripts": "1.1.5"
   },

@@ -10,7 +10,7 @@ install:
 
 script:
   - npm run lint
-  - npm run build
+  - npm run transpile
 
 notifications:
   email: false

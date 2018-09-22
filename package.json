@@ -1,14 +1,15 @@
 {
   "name": "react-d3-heatmap",
-  "version": "0.0.9",
+  "version": "0.0.15",
   "description": "A set of components to display data as heat map",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest src/__tests__ --coverage",
     "tests": "npm run test -- -u",
-    "build": "rm -rf dist/ && webpack --config webpack.config.js",
     "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000",
-    "lint": "prettier --write 'src/**/*.js'"
+    "lint": "prettier --write 'src/**/*.js'",
+    "transpile": "babel src -d dist --copy-files",
+    "prepublishOnly": "npm run transpile"
   },
   "repository": {
     "type": "git",
@@ -66,7 +67,7 @@
     "regenerator-runtime": "^0.12.1",
     "style-loader": "^0.23.0",
     "webpack": "^4.17.1",
-    "webpack-cli": "^2.1.5",
+    "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.0"
   },
   "jest": {

@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3"
-import d3Tip from 'd3-tip'
-import _ from 'lodash'
+import d3Tip from "d3-tip"
+import _ from "lodash"
 import "../tooltip.css"
 
 export default class HeatMapDate extends Component {
@@ -29,10 +29,10 @@ export default class HeatMapDate extends Component {
 	constructor(props) {
 		super(props)
 	}
-	
+
 	state = {
 		svgElem: undefined,
-		svgLegend: undefined
+		svgLegend: undefined,
 	}
 
 	render() {
@@ -47,8 +47,8 @@ export default class HeatMapDate extends Component {
 			marginBottom,
 			displayLegend,
 		} = this.props
-		const monthsName = ['Jan', 'Feb', 'Mar', 'Avr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		const daysName = ['Sun', 'Tue', 'Thu', 'Sat']
+		const monthsName = ["Jan", "Feb", "Mar", "Avr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+		const daysName = ["Sun", "Tue", "Thu", "Sat"]
 		const dataset = []
 
 		const svg = d3.select(this.state.svgElem)
@@ -59,12 +59,15 @@ export default class HeatMapDate extends Component {
 		const bufferDate = new Date(tmpBufferDate)
 		bufferDate.setHours(0, 0, 0, 0)
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		svg.attr("width", (rectWidth + marginLeft) * (nbDayDiff / 7) + 30).attr("height", (rectWidth + marginBottom) * 7 + 50)
+		svg.attr("width", (rectWidth + marginLeft) * (nbDayDiff / 7) + 30).attr(
+			"height",
+			(rectWidth + marginBottom) * 7 + 50
+		)
 		for (let i = 0; i < nbDayDiff; i++) {
 			if (i == 0 || i === 2 || i === 4 || i === 6) {
 				svg.append("text")
-					.text(daysName[i/2])
-					.attr("y", (i % 7) * (rectWidth + marginBottom) + (rectWidth / 6) + 32)
+					.text(daysName[i / 2])
+					.attr("y", (i % 7) * (rectWidth + marginBottom) + rectWidth / 6 + 32)
 					.attr("x", 0)
 			}
 			const objMatch = data.find(obj => {
@@ -97,25 +100,33 @@ export default class HeatMapDate extends Component {
 
 			if (bufferDate.getDate() === 1) {
 				svg.append("text")
-				.text(monthsName[bufferDate.getMonth()])
-				.attr('x', () => {
-					return Math.floor(i / 7) * (rectWidth + marginLeft) + 32
-				})
-				.attr('y', 18)
-				.attr("font-size", 18)
+					.text(monthsName[bufferDate.getMonth()])
+					.attr("x", () => {
+						return Math.floor(i / 7) * (rectWidth + marginLeft) + 32
+					})
+					.attr("y", 18)
+					.attr("font-size", 18)
 			}
 			bufferDate.setDate(bufferDate.getDate() + 1)
 		}
 
 		if (dataset.length > 0) {
 			const tip = d3Tip()
-				.attr('class', 'd3-tip')
+				.attr("class", "d3-tip")
 				.offset([-8, 0])
 				.html(d => {
 					if (d.color !== "#FFFFFF") {
-						return "<div style={{ fontSize: '15' }}>" +
-						d.date.getFullYear() + "/" + (d.date.getMonth()+1) + "/" + d.date.getDate() + " : " + d.count +
-						"</div>"
+						return (
+							"<div style={{ fontSize: '15' }}>" +
+							d.date.getFullYear() +
+							"/" +
+							(d.date.getMonth() + 1) +
+							"/" +
+							d.date.getDate() +
+							" : " +
+							d.count +
+							"</div>"
+						)
 					} else return null
 				})
 			svg.call(tip)
@@ -125,54 +136,66 @@ export default class HeatMapDate extends Component {
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("class", 'dayRect')
-				.attr("x", (d) => {
-					return (Math.floor(d.i / 7) * (rectWidth + marginLeft)) + 32
+				.attr("class", "dayRect")
+				.attr("x", d => {
+					return Math.floor(d.i / 7) * (rectWidth + marginLeft) + 32
 				})
-				.attr("y", (d) => {
+				.attr("y", d => {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
 				})
 				.attr("fill", d => d.color)
-				.on('mouseover', function(d) { if (d.color !== "#FFFFFF") tip.show(d, this); })
-				.on('mouseout', tip.hide)
+				.on("mouseover", function(d) {
+					if (d.color !== "#FFFFFF") tip.show(d, this)
+				})
+				.on("mouseout", tip.hide)
 		}
 
 		if (displayLegend) {
 			const svgLegend = d3.select(this.state.svgLegend)
-			svgLegend.attr("width", ((rectWidth + marginLeft) * colors.size + 90) + 50).attr("height", 30)
-			svgLegend.append('text')
+			svgLegend.attr("width", (rectWidth + marginLeft) * colors.size + 90 + 50).attr("height", 30)
+			svgLegend
+				.append("text")
 				.text("Legend :")
 				.attr("x", 0)
 				.attr("y", 20)
 				.attr("font-size", 18)
 
 			const tip = d3Tip()
-				.attr('class', 'd3-tip')
+				.attr("class", "d3-tip")
 				.offset([-8, 0])
 				.html(d => {
-					return "<div style={{ fontSize: '15' }}>" +
-					d.count +
-					"</div>"
+					return "<div style={{ fontSize: '15' }}>" + d.count + "</div>"
 				})
 			svgLegend.call(tip)
 
-			svgLegend.selectAll("rect")
+			svgLegend
+				.selectAll("rect")
 				.data(colors)
 				.enter()
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("x", (d, i) => (rectWidth + marginLeft) * i  + 76)
-				.attr("y", 15 - (rectWidth / 2))
+				.attr("x", (d, i) => (rectWidth + marginLeft) * i + 76)
+				.attr("y", 15 - rectWidth / 2)
 				.attr("fill", d => d.color)
-				.on('mouseover', tip.show)
-				.on('mouseout', tip.hide)
+				.on("mouseover", tip.show)
+				.on("mouseout", tip.hide)
 		}
 
 		return (
-			<div style={{ width: 'auto', height: 'auto' }} id="react-d3-heatMap">
-				<svg style={{ display: 'block' }} ref={elem => {if (!this.state.svgElem) this.setState({ svgElem: elem })}} />
-				<svg style={{ display: 'block' }} ref={elem => {if (!this.state.svgLegend) this.setState({ svgLegend: elem })}} />
+			<div style={{ width: "auto", height: "auto" }} id="react-d3-heatMap">
+				<svg
+					style={{ display: "block" }}
+					ref={elem => {
+						if (!this.state.svgElem) this.setState({ svgElem: elem })
+					}}
+				/>
+				<svg
+					style={{ display: "block" }}
+					ref={elem => {
+						if (!this.state.svgLegend) this.setState({ svgLegend: elem })
+					}}
+				/>
 			</div>
 		)
 	}
