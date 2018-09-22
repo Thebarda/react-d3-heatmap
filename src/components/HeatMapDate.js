@@ -13,13 +13,13 @@ export default class HeatMapDate extends Component {
 		colors: PropTypes.instanceOf(Array).isRequired,
 		defaultColor: PropTypes.string,
 		rectWidth: PropTypes.number,
-		marginLeft: PropTypes.number,
+		marginRight: PropTypes.number,
 		marginBottom: PropTypes.number,
 		displayLegend: PropTypes.bool,
 	}
 
 	static defaultProps = {
-		marginLeft: 4,
+		marginRight: 4,
 		marginBottom: 4,
 		displayLegend: true,
 		rectWidth: 10,
@@ -43,7 +43,7 @@ export default class HeatMapDate extends Component {
 			colors,
 			defaultColor,
 			rectWidth,
-			marginLeft,
+			marginRight,
 			marginBottom,
 			displayLegend,
 		} = this.props
@@ -59,7 +59,7 @@ export default class HeatMapDate extends Component {
 		const bufferDate = new Date(tmpBufferDate)
 		bufferDate.setHours(0, 0, 0, 0)
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		svg.attr("width", (rectWidth + marginLeft) * (nbDayDiff / 7) + 30).attr(
+		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 30).attr(
 			"height",
 			(rectWidth + marginBottom) * 7 + 50
 		)
@@ -87,13 +87,6 @@ export default class HeatMapDate extends Component {
 				} else {
 					finalColor = finalColor[finalColor.length - 1].color
 				}
-				/* finalColor = finalColor.length > 0 ? finalColor[finalColor.length].color : undefined
-				if (finalColor === undefined) {
-					colors.map(c => {
-						if (!maxCount || maxCount < c.count) maxCount = c.count
-					})
-					finalColor = colors.find(c => c.count === maxCount).color
-				} */
 			}
 			const today = new Date(bufferDate.getTime())
 			dataset.push({ date: today, count: objMatch ? objMatch.count : maxCount || 0, color: finalColor, i })
@@ -102,7 +95,7 @@ export default class HeatMapDate extends Component {
 				svg.append("text")
 					.text(monthsName[bufferDate.getMonth()])
 					.attr("x", () => {
-						return Math.floor(i / 7) * (rectWidth + marginLeft) + 32
+						return Math.floor(i / 7) * (rectWidth + marginRight) + 32
 					})
 					.attr("y", 18)
 					.attr("font-size", 18)
@@ -138,7 +131,7 @@ export default class HeatMapDate extends Component {
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
 				.attr("x", d => {
-					return Math.floor(d.i / 7) * (rectWidth + marginLeft) + 32
+					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 32
 				})
 				.attr("y", d => {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
@@ -152,7 +145,7 @@ export default class HeatMapDate extends Component {
 
 		if (displayLegend) {
 			const svgLegend = d3.select(this.state.svgLegend)
-			svgLegend.attr("width", (rectWidth + marginLeft) * colors.size + 90 + 50).attr("height", 30)
+			svgLegend.attr("width", (rectWidth + marginRight) * colors.size + 90 + 50).attr("height", 30)
 			svgLegend
 				.append("text")
 				.text("Legend :")
@@ -175,7 +168,7 @@ export default class HeatMapDate extends Component {
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("x", (d, i) => (rectWidth + marginLeft) * i + 76)
+				.attr("x", (d, i) => (rectWidth + marginRight) * i + 76)
 				.attr("y", 15 - rectWidth / 2)
 				.attr("fill", d => d.color)
 				.on("mouseover", tip.show)
