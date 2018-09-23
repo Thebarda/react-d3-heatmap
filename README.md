@@ -4,6 +4,12 @@ A simple React heat map to visualize your data between two dates using d3.js
 
 This heat map will display rectangles inside SVG. A rectangle represent a day.
 
+# Demo
+
+[Here is a preview](https://codesandbox.io/s/wnk771y0m7?view=preview)
+Or
+[View with the whole code](https://codesandbox.io/s/wnk771y0m7)
+
 # Installation
 
     npm i react-d3-heatmap
