@@ -16,6 +16,10 @@ colors.push({ count: 6, color: "#ffcc00" })
 colors.push({ count: 7, color: "#ff9933" })
 colors.push({ count: 9, color: "#ff0000" })
 
+const startDate2 = new Date(2018, 8, 2)
+const endDate2 = new Date(2018, 8, 15)
+const data2 = setData(startDate2, endDate2, 9)
+
 ReactDOM.render(
 	<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={colors} rectWidth={15} displayLegend />,
 	document.getElementById("index")
