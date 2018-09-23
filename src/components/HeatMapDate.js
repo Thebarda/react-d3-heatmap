@@ -173,6 +173,9 @@ export default class HeatMapDate extends Component {
 				.attr("fill", d => d.color)
 				.on("mouseover", tip.show)
 				.on("mouseout", tip.hide)
+		} else {
+			const svgLegend = d3.select(this.state.svgLegend)
+			svgLegend.attr("width", 0).attr("height", 0)
 		}
 
 		return (
@@ -184,7 +187,6 @@ export default class HeatMapDate extends Component {
 					}}
 				/>
 				<svg
-					style={{ display: "block" }}
 					ref={elem => {
 						if (!this.state.svgLegend) this.setState({ svgLegend: elem })
 					}}
