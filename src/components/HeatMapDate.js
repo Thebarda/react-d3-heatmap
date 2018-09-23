@@ -54,15 +54,25 @@ export default class HeatMapDate extends Component {
 		const svg = d3.select(this.state.svgElem)
 		const tmpBufferDate = new Date(startDate)
 		const startDateYesterday = new Date(startDate)
+		const noMonthName = startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()
 		startDateYesterday.setDate(startDateYesterday.getDate() - 1)
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDateYesterday.getDay())
 		const bufferDate = new Date(tmpBufferDate)
 		bufferDate.setHours(0, 0, 0, 0)
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 30).attr(
-			"height",
-			(rectWidth + marginBottom) * 7 + 50
-		)
+		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 70)
+		.attr("height", (rectWidth + marginBottom) * 7 + 50)
+
+		if (noMonthName) {
+			svg.append("text")
+				.text(monthsName[startDate.getMonth()])
+				.attr("x", () => {
+					return Math.floor(0 / 7) * (rectWidth + marginRight) + 32
+				})
+				.attr("y", 18)
+				.attr("font-size", 18)
+		}
+
 		for (let i = 0; i < nbDayDiff; i++) {
 			if (i == 0 || i === 2 || i === 4 || i === 6) {
 				svg.append("text")
@@ -91,7 +101,7 @@ export default class HeatMapDate extends Component {
 			const today = new Date(bufferDate.getTime())
 			dataset.push({ date: today, count: objMatch ? objMatch.count : maxCount || 0, color: finalColor, i })
 
-			if (bufferDate.getDate() === 1) {
+			if (bufferDate.getDate() === 1 && !noMonthName) {
 				svg.append("text")
 					.text(monthsName[bufferDate.getMonth()])
 					.attr("x", () => {
