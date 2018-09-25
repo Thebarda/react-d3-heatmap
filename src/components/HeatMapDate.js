@@ -16,6 +16,7 @@ export default class HeatMapDate extends Component {
 		marginRight: PropTypes.number,
 		marginBottom: PropTypes.number,
 		displayLegend: PropTypes.bool,
+		transition: PropTypes.number,
 	}
 
 	static defaultProps = {
@@ -24,6 +25,7 @@ export default class HeatMapDate extends Component {
 		displayLegend: true,
 		rectWidth: 10,
 		defaultColor: "#cdcdcd",
+		transition: -1,
 	}
 
 	constructor(props) {
@@ -33,6 +35,15 @@ export default class HeatMapDate extends Component {
 	state = {
 		svgElem: undefined,
 		svgLegend: undefined,
+		firstRender: true
+	}
+
+	componentDidUpdate() {
+		setTimeout(() => {
+			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem && this.state.svgLegend) {
+				this.setState({ firstRender: false })
+			}
+		}, this.props.transition)
 	}
 
 	render() {
@@ -46,22 +57,32 @@ export default class HeatMapDate extends Component {
 			marginRight,
 			marginBottom,
 			displayLegend,
+			transition,
 		} = this.props
+		const { svgElem, svgLegend, firstRender } = this.state
 		const monthsName = ["Jan", "Feb", "Mar", "Avr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		const daysName = ["Sun", "Tue", "Thu", "Sat"]
 		const dataset = []
+		let t = null
+		if (transition > 0 && firstRender) {
+			t = d3.transition().duration(transition)
+		}
 
-		const svg = d3.select(this.state.svgElem)
+		const svg = d3.select(svgElem)
+		svg.selectAll("*").remove()
 		const tmpBufferDate = new Date(startDate)
 		const startDateYesterday = new Date(startDate)
-		const noMonthName = startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()
+		const noMonthName =
+			startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()
 		startDateYesterday.setDate(startDateYesterday.getDate() - 1)
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDateYesterday.getDay())
 		const bufferDate = new Date(tmpBufferDate)
 		bufferDate.setHours(0, 0, 0, 0)
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 70)
-		.attr("height", (rectWidth + marginBottom) * 7 + 50)
+		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 70).attr(
+			"height",
+			(rectWidth + marginBottom) * 7 + 50
+		)
 
 		if (noMonthName) {
 			svg.append("text")
@@ -133,10 +154,12 @@ export default class HeatMapDate extends Component {
 					} else return null
 				})
 			svg.call(tip)
-			svg.selectAll("rect")
+			const rects = svg
+				.selectAll("rect")
 				.data(dataset)
 				.enter()
 				.append("rect")
+				.style("opacity", t !== null ? 0 : 1)
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
@@ -151,10 +174,12 @@ export default class HeatMapDate extends Component {
 					if (d.color !== "#FFFFFF") tip.show(d, this)
 				})
 				.on("mouseout", tip.hide)
+			if (t !== null) rects.transition(t).style("opacity", "1")
 		}
 
 		if (displayLegend) {
-			const svgLegend = d3.select(this.state.svgLegend)
+			const svgLegend = d3.select(svgLegend)
+			svgLegend.selectAll("*").remove()
 			svgLegend.attr("width", (rectWidth + marginRight) * colors.size + 90 + 50).attr("height", 30)
 			svgLegend
 				.append("text")
@@ -184,7 +209,7 @@ export default class HeatMapDate extends Component {
 				.on("mouseover", tip.show)
 				.on("mouseout", tip.hide)
 		} else {
-			const svgLegend = d3.select(this.state.svgLegend)
+			const svgLegend = d3.select(svgLegend)
 			svgLegend.attr("width", 0).attr("height", 0)
 		}
 
