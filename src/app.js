@@ -20,7 +20,43 @@ const startDate2 = new Date(2018, 8, 2)
 const endDate2 = new Date(2018, 8, 15)
 const data2 = setData(startDate2, endDate2, 9)
 
-ReactDOM.render(
-	<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={colors} rectWidth={15} displayLegend={false} />,
-	document.getElementById("index")
-)
+class App extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			colors,
+			data,
+			endDate,
+			endDate2,
+			startDate,
+			startDate2,
+			data2,
+		}
+		this.interval = setInterval(() => {
+			this.setState({ data: setData(this.state.startDate, this.state.endDate, 231) })
+		}, 3000)
+	}
+
+	componentWillUnmount() {
+		if (this.interval) clearInterval(this.interval)
+	}
+
+	render() {
+		const { startDate, startDate2, endDate, endDate2, data, data2, colors } = this.state
+		return (
+			<div>
+				<HeatMapDate
+					startDate={startDate}
+					endDate={endDate}
+					data={data}
+					colors={colors}
+					rectWidth={15}
+					displayLegend={false}
+					transition={1000}
+				/>
+			</div>
+		)
+	}
+}
+
+ReactDOM.render(<App />, document.getElementById("index"))

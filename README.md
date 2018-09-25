@@ -49,7 +49,8 @@ You can change these props :
 |rectWidth|Set width and height for each rectangle|`Number`|`false`|`10`
 |marginRight|Space between two rectangles on x axis|`Number`|`false`|`4`
 |marginBottom|Space between two rectangles on y axis|`Number`|`false`|`4`
-|displayLegend|Display or not legend|`Boolean`|`false`|`true`
+|displayLegend|Display or not a legend|`Boolean`|`false`|`true`
+|transition|Add a fade in transition. Must be > 0 | `Number`|`false`|`-1`
 
 # Contribute
 
