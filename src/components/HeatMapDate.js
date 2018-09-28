@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
-import _ from "lodash"
-import "../tooltip.css"
 
 export default class HeatMapDate extends Component {
 	static propTypes = {
@@ -35,7 +33,7 @@ export default class HeatMapDate extends Component {
 	state = {
 		svgElem: undefined,
 		svgLegend: undefined,
-		firstRender: true
+		firstRender: true,
 	}
 
 	componentDidUpdate() {

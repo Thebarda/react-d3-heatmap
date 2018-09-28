@@ -32,13 +32,6 @@ class App extends React.Component {
 			startDate2,
 			data2,
 		}
-		this.interval = setInterval(() => {
-			this.setState({ data: setData(this.state.startDate, this.state.endDate, 231) })
-		}, 3000)
-	}
-
-	componentWillUnmount() {
-		if (this.interval) clearInterval(this.interval)
 	}
 
 	render() {
