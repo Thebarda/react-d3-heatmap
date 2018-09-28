@@ -72,7 +72,6 @@ export default class HeatMapDate extends Component {
 			t = d3.transition().duration(transition)
 		}
 
-		Array.prototype.forEach.call(document.querySelectorAll(".d3-tip"), t => t.parentNode.removeChild(t))
 		const svg = d3.select(svgElem)
 		svg.selectAll("*").remove()
 		const tmpBufferDate = new Date(startDate)
