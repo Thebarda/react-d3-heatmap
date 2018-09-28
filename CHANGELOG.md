@@ -1,3 +1,8 @@
+# 1.0.1
+
+Bug fixes:
+  - Sometime tooltip does not display (due to a workaround)
+
 # 1.0.0
 
 New Feature:
