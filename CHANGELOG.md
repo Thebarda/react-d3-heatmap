@@ -1,3 +1,7 @@
+# 1.0.3
+
+Bug fix
+
 # 1.0.1
 
 Bug fixes:
