@@ -51,6 +51,8 @@ You can change these props :
 |marginBottom|Space between two rectangles on y axis|`Number`|`false`|`4`
 |displayLegend|Display or not a legend|`Boolean`|`false`|`true`
 |transition|Add a fade in transition. Must be > 0 | `Number`|`false`|`-1`
+|backgroundColor|Custom background color (ex: `"#2323232"`)|`String`|`false`|`"#fff"`
+|textColor|Custom text color (ex: `"#00ff00"`)|`String`|`false`|`"#000"`
 
 # Contribute
 

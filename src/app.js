@@ -43,6 +43,8 @@ class App extends React.Component {
 					endDate={endDate}
 					data={data}
 					colors={colors}
+					marginRight={15}
+					marginBottom={12}
 					rectWidth={15}
 					displayLegend={false}
 					transition={1000}

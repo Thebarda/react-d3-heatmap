@@ -147,3 +147,30 @@ test("it should render without throwing error one week", () => {
 	const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={colors} />)
 	expect(wrapper).toMatchSnapshot()
 })
+
+test("it should render without throwing error two months", () => {
+	const { data, startDate, endDate, colors } = setUp(2017, 7, 16, 2018, 9, 16, 231)
+	const wrapper = shallow(<HeatMapDate startDate={startDate} endDate={endDate} data={data} colors={colors} />)
+	expect(wrapper).toMatchSnapshot()
+})
+
+test("it should render without throwing error with custom background and text color", () => {
+	const { data, startDate, endDate, colors } = setUp(2017, 1, 2, 2018, 1, 2, 231)
+	const wrapper = shallow(
+		<HeatMapDate
+			startDate={startDate}
+			endDate={endDate}
+			data={data}
+			colors={colors}
+			marginRight={15}
+			marginBottom={12}
+			rectWidth={15}
+			displayLegend={false}
+			transition={1000}
+			defaultColor={"#00dd00"}
+			textColor={"#e2e2de"}
+			backgroundColor={"#78df87"}
+		/>
+	)
+	expect(wrapper).toMatchSnapshot()
+})
