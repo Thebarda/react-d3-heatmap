@@ -32,6 +32,10 @@ export default class HeatMapDate extends Component {
 
 	constructor(props) {
 		super(props)
+		this.ID = Math.random()
+			.toString(36)
+			.replace(/[^a-z]+/g, "")
+			.substr(0, 32)
 	}
 
 	state = {
@@ -74,7 +78,7 @@ export default class HeatMapDate extends Component {
 
 		// This is a possible workaround about tooltips that do not want to hide when data change
 		// See https://github.com/Caged/d3-tip/issues/133
-		d3.select(".d3-tip").remove()
+		d3.select(".d3-tip." + this.ID).remove()
 
 		const svg = d3.select(svgElem)
 		svg.selectAll("*").remove()
@@ -147,7 +151,7 @@ export default class HeatMapDate extends Component {
 
 		if (dataset.length > 0) {
 			const tip = d3Tip()
-				.attr("class", "d3-tip")
+				.attr("class", "d3-tip " + this.ID)
 				.offset([-8, 0])
 				.html(d => {
 					if (d.color !== backgroundColor) {

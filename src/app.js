@@ -56,6 +56,18 @@ class App extends React.Component {
 					displayLegend={false}
 					transition={1000}
 				/>
+				<br />
+				<HeatMapDate
+					startDate={startDate}
+					endDate={endDate}
+					data={data}
+					colors={colors}
+					marginRight={15}
+					marginBottom={12}
+					rectWidth={15}
+					displayLegend={false}
+					transition={1000}
+				/>
 			</div>
 		)
 	}
