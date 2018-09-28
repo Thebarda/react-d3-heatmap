@@ -178,7 +178,7 @@ export default class HeatMapDate extends Component {
 				})
 				.attr("fill", d => d.color)
 				.on("mouseover", function(d) {
-					if (d.color !== "#FFFFFF") tip.show(d, this)
+					if (d.color !== backgroundColor) tip.show(d, this)
 				})
 				.on("mouseout", tip.hide)
 
