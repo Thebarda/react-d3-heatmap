@@ -33,7 +33,7 @@ Here is a basic usage :
 />
 ```
 
-BETA note : This dependency works / has been tested in a create-react-app project. Please open issue if there is a problem on from scratch react project
+BETA note : This dependency works / has been tested in a create-react-app project. Please open issue if there is a problem on 'from scratch' react project
 
 # Documentation
 
@@ -63,3 +63,6 @@ Fork this project, create a branch then open a pull request :)
 # Author
 
 Tom Darneix
+# License
+
+MIT
