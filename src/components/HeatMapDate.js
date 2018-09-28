@@ -42,7 +42,7 @@ export default class HeatMapDate extends Component {
 
 	componentDidUpdate() {
 		setTimeout(() => {
-			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem && this.state.svgLegend) {
+			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem) {
 				this.setState({ firstRender: false })
 			}
 		}, this.props.transition)
@@ -72,6 +72,7 @@ export default class HeatMapDate extends Component {
 			t = d3.transition().duration(transition)
 		}
 
+		Array.prototype.forEach.call(document.querySelectorAll(".d3-tip"), t => t.parentNode.removeChild(t))
 		const svg = d3.select(svgElem)
 		svg.selectAll("*").remove()
 		const tmpBufferDate = new Date(startDate)
@@ -166,7 +167,7 @@ export default class HeatMapDate extends Component {
 				.data(dataset)
 				.enter()
 				.append("rect")
-				.style("opacity", t !== null ? 0 : 1)
+				.attr("fill-opacity", t !== null ? 0 : 1)
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
@@ -181,7 +182,8 @@ export default class HeatMapDate extends Component {
 					if (d.color !== "#FFFFFF") tip.show(d, this)
 				})
 				.on("mouseout", tip.hide)
-			if (t !== null) rects.transition(t).style("opacity", "1")
+
+			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
 		}
 
 		if (displayLegend) {
