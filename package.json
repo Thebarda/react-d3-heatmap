@@ -1,6 +1,6 @@
 {
   "name": "react-d3-heatmap",
-  "version": "0.0.17",
+  "version": "1.0.0",
   "description": "A set of components to display data as heat map",
   "main": "dist/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "component"
   ],
   "author": "Tom Darneix",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Thebarda/react-d3-heatmap/issues"
   },
