@@ -1,3 +1,14 @@
+# 1.0.0
+
+New Feature:
+  - You can add a transition when heat map renders for the first time
+  - You can custom background and text color
+
+Improvements:
+  - Improve tests
+
+Bug fixes
+
 # 0.0.17-beta
 
 bug fix: 
