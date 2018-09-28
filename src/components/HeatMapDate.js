@@ -72,6 +72,10 @@ export default class HeatMapDate extends Component {
 			t = d3.transition().duration(transition)
 		}
 
+		// This is a possible workaround about tooltips that do not want to hide when data change
+		// See https://github.com/Caged/d3-tip/issues/133
+		d3.select(".d3-tip").remove()
+
 		const svg = d3.select(svgElem)
 		svg.selectAll("*").remove()
 		const tmpBufferDate = new Date(startDate)
