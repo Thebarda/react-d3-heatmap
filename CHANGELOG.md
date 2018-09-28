@@ -1,4 +1,4 @@
-# 1.0.5
+# 1.0.6
 
 Bug fix:
   - Tooltips should works correctly even if data are updated
