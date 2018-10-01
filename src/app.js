@@ -16,10 +16,12 @@ colors.push({ count: 6, color: "#ffcc00" })
 colors.push({ count: 7, color: "#ff9933" })
 colors.push({ count: 9, color: "#ff0000" })
 
-const startDate2 = new Date(2018, 8, 2)
-const endDate2 = new Date(2018, 8, 15)
+const startDate2 = new Date(2018, 11, 25)
+const endDate2 = new Date(2019, 0, 3)
 const data2 = setData(startDate2, endDate2, 9)
-
+/**
+ * This is the component playground that you have to use during your development
+ */
 class App extends React.Component {
 	constructor(props) {
 		super(props)
@@ -58,9 +60,9 @@ class App extends React.Component {
 				/>
 				<br />
 				<HeatMapDate
-					startDate={startDate}
-					endDate={endDate}
-					data={data}
+					startDate={startDate2}
+					endDate={endDate2}
+					data={data2}
 					colors={colors}
 					marginRight={15}
 					marginBottom={12}
