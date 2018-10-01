@@ -39,7 +39,9 @@ export default class HeatMapDate extends PureComponent {
 		// Apply a radius on rectangle
 		radius: PropTypes.number,
 		// Class attributes,
-		classnames: PropTypes.string
+		classnames: PropTypes.string,
+		// Display year near each month
+		displayYear: PropTypes.bool,
 	}
 
 	/**
@@ -55,7 +57,7 @@ export default class HeatMapDate extends PureComponent {
 		backgroundColor: "#fff",
 		textColor: "#000",
 		radius: 0,
-		classnames: ""
+		classnames: "",
 	}
 
 	constructor(props) {
@@ -100,7 +102,8 @@ export default class HeatMapDate extends PureComponent {
 			backgroundColor,
 			textColor,
 			radius,
-			classnames
+			classnames,
+			displayYear,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -127,7 +130,9 @@ export default class HeatMapDate extends PureComponent {
 		// startDate and endDate less than 1 month
 		const noMonthName =
 			(startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) ||
-			(startDate.getMonth() == 11 && endDate.getMonth() === 0 && endDate.getFullYear() - startDate.getFullYear() === 1)
+			(startDate.getMonth() == 11 &&
+				endDate.getMonth() === 0 &&
+				endDate.getFullYear() - startDate.getFullYear() === 1)
 		startDateYesterday.setDate(startDateYesterday.getDate() - 1)
 		// We set bufferDate to the previous Sunday of startDate.
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDateYesterday.getDay())
@@ -136,16 +141,20 @@ export default class HeatMapDate extends PureComponent {
 		// Number of day from bufferDate to endDate
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
 		const svgWidth = (rectWidth + marginRight) * (nbDayDiff / 7) + 70
-		svg.attr("width", svgWidth).attr(
-			"height",
-			(rectWidth + marginBottom) * 7 + 50
-		)
+		svg.attr("width", svgWidth).attr("height", (rectWidth + marginBottom) * 7 + 50)
 
 		if (noMonthName) {
+			const prefix = displayYear
+				? new Date(bufferDate)
+						.getFullYear()
+						.toString()
+						.substring(2, 4) + "/"
+				: ""
+			const prefixWidth = displayYear ? 25 : 0
 			svg.append("text")
-				.text(monthsName[startDate.getMonth()])
+				.text(prefix + monthsName[startDate.getMonth()])
 				.attr("x", () => {
-					return Math.floor(0 / 7) * (rectWidth + marginRight) + 32
+					return Math.floor(0 / 7) * (rectWidth + marginRight) + 32 - prefixWidth
 				})
 				.attr("y", 18)
 				.attr("font-size", 18)
@@ -153,6 +162,13 @@ export default class HeatMapDate extends PureComponent {
 		}
 
 		for (let i = 0; i < nbDayDiff; i++) {
+			const prefix = displayYear
+				? new Date(bufferDate)
+						.getFullYear()
+						.toString()
+						.substring(2, 4) + "/"
+				: ""
+			const prefixWidth = displayYear ? 25 : 0
 			if (i == 0 || i === 2 || i === 4 || i === 6) {
 				// Display day name as y axis
 				svg.append("text")
@@ -189,9 +205,9 @@ export default class HeatMapDate extends PureComponent {
 			if (bufferDate.getDate() === 1 && !noMonthName) {
 				// Display month name
 				svg.append("text")
-					.text(monthsName[bufferDate.getMonth()])
+					.text(prefix + monthsName[bufferDate.getMonth()])
 					.attr("x", () => {
-						return Math.floor(i / 7) * (rectWidth + marginRight) + 32
+						return Math.floor(i / 7) * (rectWidth + marginRight) + 32 - prefixWidth
 					})
 					.attr("y", 18)
 					.attr("font-size", 18)
@@ -238,17 +254,17 @@ export default class HeatMapDate extends PureComponent {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
 				})
 				.attr("fill", d => d.color)
-				.attr('rx', radius)
-				.attr('ry', radius)
+				.attr("rx", radius)
+				.attr("ry", radius)
 				.on("mouseover", function(d) {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
-						d3.select(this).attr('stroke', 'black')
+						d3.select(this).attr("stroke", "black")
 					}
 				})
 				.on("mouseout", d => {
 					tip.hide(d, this)
-					d3.selectAll('rect').attr('stroke', 'none')
+					d3.selectAll("rect").attr("stroke", "none")
 				})
 
 			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
@@ -286,18 +302,18 @@ export default class HeatMapDate extends PureComponent {
 				.attr("height", rectWidth)
 				.attr("x", (d, i) => (rectWidth + marginRight) * i + 76)
 				.attr("y", 15 - rectWidth / 2)
-				.attr('rx', radius)
-				.attr('ry', radius)
+				.attr("rx", radius)
+				.attr("ry", radius)
 				.attr("fill", d => d.color)
 				.on("mouseover", function(d) {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
-						d3.select(this).attr('stroke', textColor)
+						d3.select(this).attr("stroke", textColor)
 					}
 				})
 				.on("mouseout", d => {
 					tip.hide(d, this)
-					d3.selectAll('rect').attr('stroke', 'none')
+					d3.selectAll("rect").attr("stroke", "none")
 				})
 		} else {
 			const svgLegendD3 = d3.select(svgLegend)

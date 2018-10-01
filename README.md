@@ -55,6 +55,7 @@ You can change these props :
 |textColor|Custom text color (ex: `"#00ff00"`)|`String`|`false`|`"#000"`
 |radius|Apply a radius on each rectangle|`Number`|`false`|`0`
 |classnames|Apply your own CSS class|`String`|`false`|`""`
+|displayYear|Display on each month (ex: `17/Avr`)|`Boolean`|`false`|`false`
 
 # Contribute
 
