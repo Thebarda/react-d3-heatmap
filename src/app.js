@@ -55,7 +55,6 @@ class App extends React.Component {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					displayLegend={false}
 					transition={1000}
 				/>
 				<br />
@@ -67,7 +66,6 @@ class App extends React.Component {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					displayLegend={false}
 					transition={1000}
 				/>
 			</div>

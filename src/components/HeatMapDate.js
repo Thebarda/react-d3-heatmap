@@ -58,6 +58,10 @@ export default class HeatMapDate extends PureComponent {
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
 			.substr(0, 32)
+		this.IDLegend = Math.random()
+			.toString(36)
+			.replace(/[^a-z]+/g, "")
+			.substr(0, 32)
 	}
 
 	state = {
@@ -104,6 +108,7 @@ export default class HeatMapDate extends PureComponent {
 		// This is a possible workaround about tooltips that do not want to hide when data change
 		// See https://github.com/Caged/d3-tip/issues/133
 		d3.select(".d3-tip." + this.ID).remove()
+		d3.select(".d3-tip." + this.IDLegend).remove()
 
 		const svg = d3.select(svgElem)
 		// We remove all elemnts (rect + text) to properly update the svg
@@ -225,9 +230,15 @@ export default class HeatMapDate extends PureComponent {
 				})
 				.attr("fill", d => d.color)
 				.on("mouseover", function(d) {
-					if (d.color !== backgroundColor) tip.show(d, this)
+					if (d.color !== backgroundColor) {
+						tip.show(d, this)
+						d3.select(this).attr('stroke', 'black')
+					}
 				})
-				.on("mouseout", tip.hide)
+				.on("mouseout", d => {
+					tip.hide(d, this)
+					d3.selectAll('rect').attr('stroke', 'none')
+				})
 
 			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
 		}
@@ -238,14 +249,14 @@ export default class HeatMapDate extends PureComponent {
 			svgLegendD3.attr("width", (rectWidth + marginRight) * colors.length + 90 + 50).attr("height", 30)
 			svgLegendD3
 				.append("text")
-				.text("Legend :")
+				.text("Legend : ")
 				.attr("x", 0)
 				.attr("y", 20)
 				.attr("font-size", 18)
 				.attr("fill", textColor)
 
 			const tip = d3Tip()
-				.attr("class", "d3-tip")
+				.attr("class", "d3-tip " + this.IDLegend)
 				.offset([-8, 0])
 				.html(d => {
 					return "<div style={{ fontSize: '15' }}>" + d.count + "</div>"
@@ -262,8 +273,16 @@ export default class HeatMapDate extends PureComponent {
 				.attr("x", (d, i) => (rectWidth + marginRight) * i + 76)
 				.attr("y", 15 - rectWidth / 2)
 				.attr("fill", d => d.color)
-				.on("mouseover", tip.show)
-				.on("mouseout", tip.hide)
+				.on("mouseover", function(d) {
+					if (d.color !== backgroundColor) {
+						tip.show(d, this)
+						d3.select(this).attr('stroke', 'black')
+					}
+				})
+				.on("mouseout", d => {
+					tip.hide(d, this)
+					d3.selectAll('rect').attr('stroke', 'none')
+				})
 		} else {
 			const svgLegendD3 = d3.select(svgLegend)
 			svgLegendD3.attr("width", 0).attr("height", 0)
