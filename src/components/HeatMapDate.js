@@ -58,6 +58,10 @@ export default class HeatMapDate extends PureComponent {
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
 			.substr(0, 32)
+		this.IDLegend = Math.random()
+			.toString(36)
+			.replace(/[^a-z]+/g, "")
+			.substr(0, 32)
 	}
 
 	state = {
@@ -104,6 +108,7 @@ export default class HeatMapDate extends PureComponent {
 		// This is a possible workaround about tooltips that do not want to hide when data change
 		// See https://github.com/Caged/d3-tip/issues/133
 		d3.select(".d3-tip." + this.ID).remove()
+		d3.select(".d3-tip." + this.IDLegend).remove()
 
 		const svg = d3.select(svgElem)
 		// We remove all elemnts (rect + text) to properly update the svg
