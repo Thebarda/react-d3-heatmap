@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import HeatMapDate from "./index"
 import { setData } from "./utils"
+import './styles/app.css'
 //Here is the playground
 //You can test your code here
 const endDate = new Date()
@@ -57,6 +58,7 @@ class App extends React.Component {
 					rectWidth={15}
 					transition={1000}
 					radius={8}
+					classnames={"border"}
 				/>
 				<br />
 				<HeatMapDate
@@ -69,6 +71,7 @@ class App extends React.Component {
 					rectWidth={15}
 					transition={1000}
 					radius={4}
+					classnames={"border"}
 				/>
 			</div>
 		)
