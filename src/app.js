@@ -56,6 +56,7 @@ class App extends React.Component {
 					marginBottom={12}
 					rectWidth={15}
 					transition={1000}
+					radius={8}
 				/>
 				<br />
 				<HeatMapDate
@@ -67,6 +68,7 @@ class App extends React.Component {
 					marginBottom={12}
 					rectWidth={15}
 					transition={1000}
+					radius={4}
 				/>
 			</div>
 		)

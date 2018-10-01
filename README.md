@@ -53,6 +53,7 @@ You can change these props :
 |transition|Add a fade in transition. Must be > 0 | `Number`|`false`|`-1`
 |backgroundColor|Custom background color (ex: `"#2323232"`)|`String`|`false`|`"#fff"`
 |textColor|Custom text color (ex: `"#00ff00"`)|`String`|`false`|`"#000"`
+|radius|Apply a radius on each rectangle|`Number`|`false`|`0`
 
 # Contribute
 

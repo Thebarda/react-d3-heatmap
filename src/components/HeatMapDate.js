@@ -36,6 +36,8 @@ export default class HeatMapDate extends PureComponent {
 		backgroundColor: PropTypes.string,
 		// Apply a text color (unavailable on tooltip)
 		textColor: PropTypes.string,
+		// Apply a radius on rectangle
+		radius: PropTypes.number
 	}
 
 	/**
@@ -50,6 +52,7 @@ export default class HeatMapDate extends PureComponent {
 		transition: -1,
 		backgroundColor: "#fff",
 		textColor: "#000",
+		radius: 0
 	}
 
 	constructor(props) {
@@ -93,6 +96,7 @@ export default class HeatMapDate extends PureComponent {
 			transition,
 			backgroundColor,
 			textColor,
+			radius
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -229,6 +233,8 @@ export default class HeatMapDate extends PureComponent {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
 				})
 				.attr("fill", d => d.color)
+				.attr('rx', radius)
+				.attr('ry', radius)
 				.on("mouseover", function(d) {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
@@ -272,11 +278,13 @@ export default class HeatMapDate extends PureComponent {
 				.attr("height", rectWidth)
 				.attr("x", (d, i) => (rectWidth + marginRight) * i + 76)
 				.attr("y", 15 - rectWidth / 2)
+				.attr('rx', radius)
+				.attr('ry', radius)
 				.attr("fill", d => d.color)
 				.on("mouseover", function(d) {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
-						d3.select(this).attr('stroke', 'black')
+						d3.select(this).attr('stroke', textColor)
 					}
 				})
 				.on("mouseout", d => {
