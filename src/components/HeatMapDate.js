@@ -1,24 +1,46 @@
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 
-export default class HeatMapDate extends Component {
+/**
+ * Component that display a heatmap to visualize data through date.
+ * Each rectangle is a day.
+ */
+export default class HeatMapDate extends PureComponent {
+	/**
+	 * Props type checking
+	 */
 	static propTypes = {
+		// The 'visible' heatmap will start this date
 		startDate: PropTypes.instanceOf(Date).isRequired,
+		// The 'visible' heatmap will end this date
 		endDate: PropTypes.instanceOf(Date).isRequired,
+		// The data that fill the heatmap. Must be an Array[{data: Date, count: Number}]
 		data: PropTypes.instanceOf(Array).isRequired,
+		// Colors that apply a color on rectangles. Must be an Array[{count: Number, color: String}]
 		colors: PropTypes.instanceOf(Array).isRequired,
+		// Apply a default color for dates whose count are too low to apply a color from 'colors'
 		defaultColor: PropTypes.string,
+		// Define a width and height for rectangle
 		rectWidth: PropTypes.number,
+		// Define a margin between two rectangle on x axis
 		marginRight: PropTypes.number,
+		// Define a margin between two rectangle on y axis
 		marginBottom: PropTypes.number,
+		// Display a legend or not
 		displayLegend: PropTypes.bool,
+		// Apply a transition when heatmap is rendering for the first time
 		transition: PropTypes.number,
+		// Apply a background color
 		backgroundColor: PropTypes.string,
+		// Apply a text color (unavailable on tooltip)
 		textColor: PropTypes.string,
 	}
 
+	/**
+	 * Set a default value to unrequired props
+	 */
 	static defaultProps = {
 		marginRight: 4,
 		marginBottom: 4,
@@ -45,6 +67,7 @@ export default class HeatMapDate extends Component {
 	}
 
 	componentDidUpdate() {
+		// I use a setTimeout to prevent a component update that stop the transition.
 		setTimeout(() => {
 			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem) {
 				this.setState({ firstRender: false })
@@ -68,7 +91,9 @@ export default class HeatMapDate extends Component {
 			textColor,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
+		// Array of months for x axis
 		const monthsName = ["Jan", "Feb", "Mar", "Avr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+		// Array of days for y axis
 		const daysName = ["Sun", "Tue", "Thu", "Sat"]
 		const dataset = []
 		let t = null
@@ -81,15 +106,21 @@ export default class HeatMapDate extends Component {
 		d3.select(".d3-tip." + this.ID).remove()
 
 		const svg = d3.select(svgElem)
+		// We remove all elemnts (rect + text) to properly update the svg
 		svg.selectAll("*").remove()
 		const tmpBufferDate = new Date(startDate)
 		const startDateYesterday = new Date(startDate)
+		// When want to display month on first column if difference between
+		// startDate and endDate less than 1 month
 		const noMonthName =
-			startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()
+			(startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) ||
+			(startDate.getMonth() == 11 && endDate.getMonth() === 0 && endDate.getFullYear() - startDate.getFullYear() === 1)
 		startDateYesterday.setDate(startDateYesterday.getDate() - 1)
+		// We set bufferDate to the previous Sunday of startDate.
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDateYesterday.getDay())
 		const bufferDate = new Date(tmpBufferDate)
 		bufferDate.setHours(0, 0, 0, 0)
+		// Number of day from bufferDate to endDate
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
 		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 70).attr(
 			"height",
@@ -109,20 +140,24 @@ export default class HeatMapDate extends Component {
 
 		for (let i = 0; i < nbDayDiff; i++) {
 			if (i == 0 || i === 2 || i === 4 || i === 6) {
+				// Display day name as y axis
 				svg.append("text")
 					.text(daysName[i / 2])
 					.attr("y", (i % 7) * (rectWidth + marginBottom) + rectWidth / 6 + 32)
 					.attr("x", 0)
 					.attr("fill", textColor)
 			}
+			// Find the first data that match with current bufferDate
 			const objMatch = data.find(obj => {
 				const dateTmp = new Date(obj.date)
 				dateTmp.setHours(0, 0, 0, 0)
 				bufferDate.setHours(0, 0, 0, 0)
 				return dateTmp.getTime() === bufferDate.getTime()
 			})
+			// If bufferDate < (startDate - 1 day) we set the rectangle color like background to make that 'invisible'
 			let finalColor = backgroundColor
 			let maxCount = null
+			// If there is no match we set the default color
 			if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
 				finalColor = defaultColor
 			} else if (bufferDate.getTime() >= startDateYesterday.getTime()) {
@@ -134,9 +169,11 @@ export default class HeatMapDate extends Component {
 				}
 			}
 			const today = new Date(bufferDate.getTime())
+			// Finally, we push it to an Array that will be used by d3
 			dataset.push({ date: today, count: objMatch ? objMatch.count : maxCount || 0, color: finalColor, i })
 
 			if (bufferDate.getDate() === 1 && !noMonthName) {
+				// Display month name
 				svg.append("text")
 					.text(monthsName[bufferDate.getMonth()])
 					.attr("x", () => {
@@ -150,6 +187,7 @@ export default class HeatMapDate extends Component {
 		}
 
 		if (dataset.length > 0) {
+			// I added an ID the tooltip because it's a workaround to prevent the tooltip won't hide when the component is updating
 			const tip = d3Tip()
 				.attr("class", "d3-tip " + this.ID)
 				.offset([-8, 0])
@@ -169,6 +207,7 @@ export default class HeatMapDate extends Component {
 					} else return null
 				})
 			svg.call(tip)
+			// Display all data rectangles
 			const rects = svg
 				.selectAll("rect")
 				.data(dataset)
