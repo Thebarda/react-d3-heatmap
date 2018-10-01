@@ -37,7 +37,9 @@ export default class HeatMapDate extends PureComponent {
 		// Apply a text color (unavailable on tooltip)
 		textColor: PropTypes.string,
 		// Apply a radius on rectangle
-		radius: PropTypes.number
+		radius: PropTypes.number,
+		// Class attributes,
+		classnames: PropTypes.string
 	}
 
 	/**
@@ -52,7 +54,8 @@ export default class HeatMapDate extends PureComponent {
 		transition: -1,
 		backgroundColor: "#fff",
 		textColor: "#000",
-		radius: 0
+		radius: 0,
+		classnames: ""
 	}
 
 	constructor(props) {
@@ -96,7 +99,8 @@ export default class HeatMapDate extends PureComponent {
 			transition,
 			backgroundColor,
 			textColor,
-			radius
+			radius,
+			classnames
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -131,7 +135,8 @@ export default class HeatMapDate extends PureComponent {
 		bufferDate.setHours(0, 0, 0, 0)
 		// Number of day from bufferDate to endDate
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		svg.attr("width", (rectWidth + marginRight) * (nbDayDiff / 7) + 70).attr(
+		const svgWidth = (rectWidth + marginRight) * (nbDayDiff / 7) + 70
+		svg.attr("width", svgWidth).attr(
 			"height",
 			(rectWidth + marginBottom) * 7 + 50
 		)
@@ -249,10 +254,13 @@ export default class HeatMapDate extends PureComponent {
 			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
 		}
 
+		let legendWidth = 0
+
 		if (displayLegend) {
 			const svgLegendD3 = d3.select(svgLegend)
 			svgLegendD3.selectAll("*").remove()
-			svgLegendD3.attr("width", (rectWidth + marginRight) * colors.length + 90 + 50).attr("height", 30)
+			legendWidth = (rectWidth + marginRight) * colors.length + 90 + 50
+			svgLegendD3.attr("width", legendWidth).attr("height", 30)
 			svgLegendD3
 				.append("text")
 				.text("Legend : ")
@@ -298,8 +306,9 @@ export default class HeatMapDate extends PureComponent {
 
 		return (
 			<div
+				className={classnames}
 				style={{
-					width: (rectWidth + marginRight) * (nbDayDiff / 7) + 70 + "px",
+					width: legendWidth > svgWidth ? legendWidth : svgWidth + "px",
 					height: "auto",
 					backgroundColor: backgroundColor,
 				}}
