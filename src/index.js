@@ -1,4 +1,4 @@
 import HeatMapDate from "./components/HeatMapDate"
-import "./tooltip.css"
+import "./styles/tooltip.css"
 
 export default HeatMapDate
