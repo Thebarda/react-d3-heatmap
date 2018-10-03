@@ -1,7 +1,18 @@
+# 1.0.7
+
+New Features:
+  - You can custom backgroundColor, textColor, squares radius, CSS class.
+  - You can choose to displayYear
+  - You can execute your own function when mouse clicks, enters and/or leaves a square
+  - When a square is hovered, it display a stroke on this square
+
+Bug fix:
+  - Legend ooltips should works correctly even if datas are updated
+
 # 1.0.6
 
 Bug fix:
-  - Tooltips should works correctly even if data are updated
+  - Tooltips should works correctly even if datas are updated
 
 # 1.0.3
 
