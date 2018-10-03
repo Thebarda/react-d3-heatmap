@@ -58,12 +58,6 @@ You can change these props :
 |onMouseEnter|Execute a callback function when mouse entering in a square. Params: `(data, index)`|`Function`|`false`|`{}`
 |onMouseLeave|Execute a callback function when mouse leaving a square. Params: `(data, index)`|`Function`|`false`|`{}`
 
-# Contribute
-
-Please feel free to contribute to this project.
-
-Fork this project, create a branch then open a pull request :)
-
 # Author
 
 Tom Darneix
