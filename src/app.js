@@ -73,7 +73,15 @@ class App extends React.Component {
 					transition={1000}
 					radius={4}
 					classnames={"border"}
-					displayYear
+					onClick={(d, i) => {
+						console.log("click", d, i)
+					}}
+					onMouseEnter={(d, i) => {
+						console.log("enter", d, i)
+					}}
+					onMouseLeave={(d, i) => {
+						console.log("leave", d, i)
+					}}
 				/>
 			</div>
 		)

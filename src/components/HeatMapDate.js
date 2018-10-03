@@ -5,7 +5,7 @@ import d3Tip from "d3-tip"
 
 /**
  * Component that display a heatmap to visualize data through date.
- * Each rectangle is a day.
+ * Each square is a day.
  */
 export default class HeatMapDate extends PureComponent {
 	/**
@@ -18,15 +18,15 @@ export default class HeatMapDate extends PureComponent {
 		endDate: PropTypes.instanceOf(Date).isRequired,
 		// The data that fill the heatmap. Must be an Array[{data: Date, count: Number}]
 		data: PropTypes.instanceOf(Array).isRequired,
-		// Colors that apply a color on rectangles. Must be an Array[{count: Number, color: String}]
+		// Colors that apply a color on squares. Must be an Array[{count: Number, color: String}]
 		colors: PropTypes.instanceOf(Array).isRequired,
 		// Apply a default color for dates whose count are too low to apply a color from 'colors'
 		defaultColor: PropTypes.string,
-		// Define a width and height for rectangle
+		// Define a width and height for square
 		rectWidth: PropTypes.number,
-		// Define a margin between two rectangle on x axis
+		// Define a margin between two squares on x axis
 		marginRight: PropTypes.number,
-		// Define a margin between two rectangle on y axis
+		// Define a margin between two squares on y axis
 		marginBottom: PropTypes.number,
 		// Display a legend or not
 		displayLegend: PropTypes.bool,
@@ -36,12 +36,18 @@ export default class HeatMapDate extends PureComponent {
 		backgroundColor: PropTypes.string,
 		// Apply a text color (unavailable on tooltip)
 		textColor: PropTypes.string,
-		// Apply a radius on rectangle
+		// Apply a radius on square
 		radius: PropTypes.number,
 		// Class attributes,
 		classnames: PropTypes.string,
 		// Display year near each month
 		displayYear: PropTypes.bool,
+		// Handle onClick in container callback
+		onClick: PropTypes.func,
+		// Handle onMouseEnter on each square callback
+		onMouseEnter: PropTypes.func,
+		// Handle onMouseLeave on each square callback
+		onMouseLeave: PropTypes.func,
 	}
 
 	/**
@@ -58,6 +64,9 @@ export default class HeatMapDate extends PureComponent {
 		textColor: "#000",
 		radius: 0,
 		classnames: "",
+		onClick: () => {},
+		onMouseLeave: () => {},
+		onMouseEnter: () => {},
 	}
 
 	constructor(props) {
@@ -104,6 +113,9 @@ export default class HeatMapDate extends PureComponent {
 			radius,
 			classnames,
 			displayYear,
+			onClick,
+			onMouseEnter,
+			onMouseLeave,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -184,7 +196,7 @@ export default class HeatMapDate extends PureComponent {
 				bufferDate.setHours(0, 0, 0, 0)
 				return dateTmp.getTime() === bufferDate.getTime()
 			})
-			// If bufferDate < (startDate - 1 day) we set the rectangle color like background to make that 'invisible'
+			// If bufferDate < (startDate - 1 day) we set the square color like background to make that 'invisible'
 			let finalColor = backgroundColor
 			let maxCount = null
 			// If there is no match we set the default color
@@ -237,7 +249,7 @@ export default class HeatMapDate extends PureComponent {
 					} else return null
 				})
 			svg.call(tip)
-			// Display all data rectangles
+			// Display all data squares
 			const rects = svg
 				.selectAll("rect")
 				.data(dataset)
@@ -256,15 +268,20 @@ export default class HeatMapDate extends PureComponent {
 				.attr("fill", d => d.color)
 				.attr("rx", radius)
 				.attr("ry", radius)
-				.on("mouseover", function(d) {
+				.on("mouseover", function(d, i) {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
 						d3.select(this).attr("stroke", "black")
 					}
+					onMouseEnter(d, i)
 				})
-				.on("mouseout", d => {
+				.on("mouseout", (d, i) => {
 					tip.hide(d, this)
 					d3.selectAll("rect").attr("stroke", "none")
+					onMouseLeave(d, i)
+				})
+				.on("click", (d, i) => {
+					onClick(d, i)
 				})
 
 			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
@@ -279,7 +296,7 @@ export default class HeatMapDate extends PureComponent {
 			svgLegendD3.attr("width", legendWidth).attr("height", 30)
 			svgLegendD3
 				.append("text")
-				.text("Legend : ")
+				.text("Legend :")
 				.attr("x", 0)
 				.attr("y", 20)
 				.attr("font-size", 18)
@@ -300,7 +317,7 @@ export default class HeatMapDate extends PureComponent {
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("x", (d, i) => (rectWidth + marginRight) * i + 76)
+				.attr("x", (d, i) => (rectWidth + marginRight) * i + 80)
 				.attr("y", 15 - rectWidth / 2)
 				.attr("rx", radius)
 				.attr("ry", radius)
