@@ -107,7 +107,7 @@ export default class HeatMapDate extends PureComponent {
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
-		const monthsName = ["Jan", "Feb", "Mar", "Avr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+		const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		// Array of days for y axis
 		const daysName = ["Sun", "Tue", "Thu", "Sat"]
 		const dataset = []
