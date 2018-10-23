@@ -306,7 +306,8 @@ export default class HeatMapDate extends PureComponent {
 				.attr("class", "d3-tip " + this.IDLegend)
 				.offset([-8, 0])
 				.html(d => {
-					return "<div style={{ fontSize: '15' }}>" + d.count + "</div>"
+					const displ = d.text ? d.text : d.count.toString()
+					return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
 				})
 			svgLegendD3.call(tip)
 
