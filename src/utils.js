@@ -29,3 +29,27 @@ export function setData(dateStart, dateEnd, nb) {
 function randomDate(start, end) {
 	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 }
+
+/**
+ * Convert an array of date to a n array of Object{ date: Date, count: Number}
+ * @param {Array[Date]} dates
+ * @returns an array of Object{ date: Date, count: Number}
+ */
+export function convertDateArrToObjectArr(dates) {
+	const result = []
+	dates.map(date => {
+		const dateTmp = new Date(date).setHours(0, 0, 0, 0)
+		if (!isNaN(dateTmp) && typeof dateTmp === "number") {
+			const index = result.findIndex(d => {
+				const dateToMatch = new Date(d.date).setHours(0, 0, 0, 0)
+				return dateToMatch === dateTmp
+			})
+			if (index !== -1) {
+				result[index].count += 1
+			} else {
+				result.push({ date: new Date(dateTmp), count: 1 })
+			}
+		}
+	})
+	return result
+}
