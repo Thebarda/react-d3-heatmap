@@ -22,6 +22,8 @@ export default class HeatMapDate extends PureComponent {
 		colors: PropTypes.instanceOf(Array).isRequired,
 		// Apply a default color for dates whose count are too low to apply a color from 'colors'
 		defaultColor: PropTypes.string,
+		// Custom text for default color in tooltip legend
+		textDefaultColor: PropTypes.string,
 		// Define a width and height for square
 		rectWidth: PropTypes.number,
 		// Define a margin between two squares on x axis
@@ -116,6 +118,7 @@ export default class HeatMapDate extends PureComponent {
 			onClick,
 			onMouseEnter,
 			onMouseLeave,
+			textDefaultColor,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -306,13 +309,21 @@ export default class HeatMapDate extends PureComponent {
 				.attr("class", "d3-tip " + this.IDLegend)
 				.offset([-8, 0])
 				.html(d => {
-					return "<div style={{ fontSize: '15' }}>" + d.count + "</div>"
+					const displ = d.text ? d.text : d.count.toString()
+					return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
 				})
 			svgLegendD3.call(tip)
-
 			svgLegendD3
 				.selectAll("rect")
-				.data(colors)
+				.data(
+					[
+						{
+							color: defaultColor,
+							count: 0,
+							text: textDefaultColor ? textDefaultColor : "0",
+						},
+					].concat(colors)
+				)
 				.enter()
 				.append("rect")
 				.attr("width", rectWidth)
