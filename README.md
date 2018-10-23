@@ -44,6 +44,7 @@ You can change these props :
 |endDate|Your heat map will end at this date|`Date`|`true`|
 |colors|Let's colorize this heat map <br /> It must be an array of objects that a number and a color like `"#2323232"`|`Array[{count: Number, color: String, text: string (optional)}]`|`true`|
 |defaultColor|A string that contain a default color|`String`|`false`|`"#cdcdcd"`
+|textDefaultColor|A tooltip's text displayed in legend for default color|`String`|`false`|`"0"`
 |rectWidth|Set width and height for each square|`Number`|`false`|`10`
 |marginRight|Space between two squares on x axis|`Number`|`false`|`4`
 |marginBottom|Space between two squares on y axis|`Number`|`false`|`4`

@@ -99,6 +99,7 @@ class App extends React.Component {
 					marginBottom={12}
 					rectWidth={15}
 					transition={1000}
+					textDefaultColor={"0-1"}
 					radius={4}
 					classnames={"border"}
 				/>
