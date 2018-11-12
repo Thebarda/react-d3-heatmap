@@ -51,7 +51,7 @@ export default class HeatMapDate extends PureComponent {
 		// Handle onMouseLeave on each square callback
 		onMouseLeave: PropTypes.func,
 		// Change week-day to start (Sunday or Monday)
-		shouldStartMonday: PropTypes.boolean,
+		shouldStartMonday: PropTypes.bool,
 	}
 
 	/**
