@@ -32,7 +32,8 @@
     "d3-tip": "^0.9.1",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
-    "react-dom": "^16.5.0"
+    "react-dom": "^16.5.0",
+    "merge": "^1.2.1"
   },
   "peerDependencies": {
     "d3": "^5.7.0",
