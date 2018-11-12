@@ -95,13 +95,12 @@ class App extends React.Component {
 					endDate={endDate2}
 					data={data2}
 					colors={colors2}
-					marginRight={15}
-					marginBottom={12}
 					rectWidth={15}
 					transition={1000}
 					textDefaultColor={"0-1"}
 					radius={4}
 					classnames={"border"}
+					shouldStartMonday
 				/>
 			</div>
 		)
