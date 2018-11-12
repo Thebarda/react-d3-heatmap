@@ -1,3 +1,11 @@
+# 1.0.9
+
+New Feature:
+  - You can choose to start your heatmap Monday or Sunday. Default is Sunday
+
+Security alert:
+  - Fix a dependency alert (dep affected : merge < 1.2.1)
+
 # 1.0.8
 
 New Features:
