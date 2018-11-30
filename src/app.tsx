@@ -1,10 +1,11 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import * as React from "react"
+import * as ReactDOM from "react-dom"
 import HeatMapDate from "./index"
-import { setData } from "./utils"
+import { setData, Interfaces } from "./utils"
 import "./styles/app.css"
 //Here is the playground
 //You can test your code here
+
 const endDate = new Date()
 const startDate = new Date()
 startDate.setFullYear(startDate.getFullYear() - 1)
@@ -26,10 +27,23 @@ colors2.push({ count: 4, color: "#ccff33", text: "4-5" })
 colors2.push({ count: 6, color: "#ffcc00", text: "6-7" })
 colors2.push({ count: 8, color: "#ff9933" })
 colors2.push({ count: 9, color: "#ff0000", text: "9 and more" })
+
+interface IProps {}
+interface IState {
+	colors: Interfaces.IColor[];
+	data: Interfaces.IPoint[];
+	data2: Interfaces.IPoint[];
+	endDate: Date;
+	endDate2: Date;
+	startDate: Date;
+	startDate2: Date;
+}
+
 /**
  * This is the component playground that you have to use during your development
  */
-class App extends React.Component {
+class App extends React.Component<IProps,IState> {
+	private interval: NodeJS.Timer
 	constructor(props) {
 		super(props)
 		this.state = {

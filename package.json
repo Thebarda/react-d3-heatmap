@@ -28,6 +28,10 @@
   },
   "homepage": "https://github.com/Thebarda/react-d3-heatmap#readme",
   "dependencies": {
+    "@types/jest": "^18.1.1",
+    "@types/node": "^7.0.5",
+    "@types/react": "^15.6.6",
+    "@types/react-dom": "^0.14.22",
     "d3": "^5.7.0",
     "d3-tip": "^0.9.1",
     "prop-types": "^15.6.2",
@@ -43,6 +47,7 @@
     "react-dom": "^16.5.0"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
@@ -66,7 +71,10 @@
     "react-dom": "^16.0.0",
     "react-test-renderer": "^16.5.2",
     "regenerator-runtime": "^0.12.1",
+    "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.0",
+    "ts-loader": "^5.3.1",
+    "typescript": "^3.1.6",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.0"

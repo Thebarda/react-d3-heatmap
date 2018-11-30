@@ -1,13 +1,22 @@
-import React, { PureComponent } from "react"
-import PropTypes from "prop-types"
+import * as React, { PureComponent } from "react"
 import * as d3 from "d3"
+import { Interfaces } from '../utils'
 import d3Tip from "d3-tip"
+
+interface IProps {
+	startDate: Date,
+	endDate: Date,
+	data: Array<Interfaces.IPoint>,
+	colors: Array<Interfaces.IColor>,
+	defaultColor?: String,
+	textDefaultColor?: String
+}
 
 /**
  * Component that display a heatmap to visualize data through date.
  * Each square is a day.
  */
-export default class HeatMapDate extends PureComponent {
+export default class HeatMapDate extends PureComponent<IProps, IState> {
 	/**
 	 * Props type checking
 	 */
