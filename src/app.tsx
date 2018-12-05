@@ -1,10 +1,11 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import * as React from "react"
+import * as ReactDOM from "react-dom"
 import HeatMapDate from "./index"
-import { setData } from "./utils"
+import { setData, IColor, IPoint } from "./utils"
 import "./styles/app.css"
 //Here is the playground
 //You can test your code here
+
 const endDate = new Date()
 const startDate = new Date()
 startDate.setFullYear(startDate.getFullYear() - 1)
@@ -26,11 +27,24 @@ colors2.push({ count: 4, color: "#ccff33", text: "4-5" })
 colors2.push({ count: 6, color: "#ffcc00", text: "6-7" })
 colors2.push({ count: 8, color: "#ff9933" })
 colors2.push({ count: 9, color: "#ff0000", text: "9 and more" })
+
+interface Props {}
+interface State {
+	colors: IColor[]
+	data: IPoint[]
+	data2: IPoint[]
+	endDate: Date
+	endDate2: Date
+	startDate: Date
+	startDate2: Date
+}
+
 /**
  * This is the component playground that you have to use during your development
  */
-class App extends React.Component {
-	constructor(props) {
+class App extends React.Component<Props, State> {
+	private interval: NodeJS.Timer
+	constructor(props: Props) {
 		super(props)
 		this.state = {
 			colors,
@@ -62,7 +76,7 @@ class App extends React.Component {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					transition={1000}
+					transition={1}
 					radius={8}
 					classnames={"border"}
 					displayYear
@@ -76,7 +90,7 @@ class App extends React.Component {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					transition={1000}
+					transition={1}
 					radius={4}
 					classnames={"border"}
 					onClick={(d, i) => {
@@ -96,7 +110,7 @@ class App extends React.Component {
 					data={data2}
 					colors={colors2}
 					rectWidth={15}
-					transition={1000}
+					transition={1}
 					textDefaultColor={"0-1"}
 					radius={4}
 					classnames={"border"}

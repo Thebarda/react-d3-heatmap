@@ -1,16 +1,27 @@
+export interface IPoint {
+	date: Date
+	count: number
+}
+
+export interface IColor {
+	count: number
+	color: string
+	text?: string
+}
+
 /**
  * Generate data test
- * @param {Date} dateStart :
+ * @param {Date} dateStart
  * @param {Date} dateEnd
  * @param {Date} nb : Numbers of data generated
  * @returns An Array of data(Object{date: Date, count: Number}). The length of array is equal to nb params
  */
-export function setData(dateStart, dateEnd, nb) {
-	const data = []
-	const dates = []
+export function setData(dateStart: Date, dateEnd: Date, nb: number): IPoint[] {
+	const data: Array<IPoint> = []
+	const dates: Array<Date> = []
 	for (let i = 0; i < nb; i++) {
 		let date = randomDate(dateStart, dateEnd)
-		while (dates.includes(dates)) {
+		while (dates.includes(date)) {
 			date = randomDate(dateStart, dateEnd)
 		}
 		dates.push(date)
@@ -26,7 +37,7 @@ export function setData(dateStart, dateEnd, nb) {
  * @param {Date} end
  * @returns a random date
  */
-function randomDate(start, end) {
+function randomDate(start: Date, end: Date): Date {
 	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 }
 
@@ -35,7 +46,7 @@ function randomDate(start, end) {
  * @param {Array[Date]} dates
  * @returns an array of Object{ date: Date, count: Number}
  */
-export function convertDateArrToObjectArr(dates) {
+export function convertDateArrToObjectArr(dates: Date[]): IPoint[] {
 	const result = []
 	dates.map(date => {
 		const dateTmp = new Date(date).setHours(0, 0, 0, 0)

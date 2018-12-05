@@ -1,59 +1,62 @@
-import React, { PureComponent } from "react"
-import PropTypes from "prop-types"
+import * as React from "react"
 import * as d3 from "d3"
+import { IPoint, IColor } from "../utils"
 import d3Tip from "d3-tip"
+
+interface Props {
+	// The 'visible' heatmap will start this date
+	startDate: Date
+	// The 'visible' heatmap will end this date
+	endDate: Date
+	// The data that fill the heatmap. Must be an Array[{data: Date, count: Number}]
+	data: Array<IPoint>
+	// Colors that apply a color on squares. Must be an Array[{count: Number, color: String}]
+	colors: Array<IColor>
+	// Apply a default color for dates whose count are too low to apply a color from 'colors'
+	defaultColor?: string
+	// Custom text for default color in tooltip legend
+	textDefaultColor?: string
+	// Define a width and height for square
+	rectWidth?: number
+	// Define a margin between two squares on x axis
+	marginRight?: number
+	// Define a margin between two squares on y axis
+	marginBottom?: number
+	// Display a legend or not
+	displayLegend?: boolean
+	// Apply a background color
+	backgroundColor?: string
+	// Apply a text color (unavailable on tooltip)
+	textColor?: string
+	// Apply a radius on square
+	radius?: number
+	// Class attributes
+	classnames?: string
+	// Display year near each month
+	displayYear?: boolean
+	// Handle onClick in container callback
+	onClick?: Function
+	// Handle onMouseEnter on each square callback
+	onMouseEnter?: Function
+	// Handle onMouseLeave on each square callback
+	onMouseLeave?: Function
+	// Change week-day to start (Sunday or Monday)
+	shouldStartMonday?: boolean
+}
+
+interface State {
+	svgElem: SVGSVGElement
+	svgLegend: SVGSVGElement
+	firstRender: Boolean
+}
 
 /**
  * Component that display a heatmap to visualize data through date.
  * Each square is a day.
  */
-export default class HeatMapDate extends PureComponent {
-	/**
-	 * Props type checking
-	 */
-	static propTypes = {
-		// The 'visible' heatmap will start this date
-		startDate: PropTypes.instanceOf(Date).isRequired,
-		// The 'visible' heatmap will end this date
-		endDate: PropTypes.instanceOf(Date).isRequired,
-		// The data that fill the heatmap. Must be an Array[{data: Date, count: Number}]
-		data: PropTypes.instanceOf(Array).isRequired,
-		// Colors that apply a color on squares. Must be an Array[{count: Number, color: String}]
-		colors: PropTypes.instanceOf(Array).isRequired,
-		// Apply a default color for dates whose count are too low to apply a color from 'colors'
-		defaultColor: PropTypes.string,
-		// Custom text for default color in tooltip legend
-		textDefaultColor: PropTypes.string,
-		// Define a width and height for square
-		rectWidth: PropTypes.number,
-		// Define a margin between two squares on x axis
-		marginRight: PropTypes.number,
-		// Define a margin between two squares on y axis
-		marginBottom: PropTypes.number,
-		// Display a legend or not
-		displayLegend: PropTypes.bool,
-		// Apply a transition when heatmap is rendering for the first time
-		transition: PropTypes.number,
-		// Apply a background color
-		backgroundColor: PropTypes.string,
-		// Apply a text color (unavailable on tooltip)
-		textColor: PropTypes.string,
-		// Apply a radius on square
-		radius: PropTypes.number,
-		// Class attributes,
-		classnames: PropTypes.string,
-		// Display year near each month
-		displayYear: PropTypes.bool,
-		// Handle onClick in container callback
-		onClick: PropTypes.func,
-		// Handle onMouseEnter on each square callback
-		onMouseEnter: PropTypes.func,
-		// Handle onMouseLeave on each square callback
-		onMouseLeave: PropTypes.func,
-		// Change week-day to start (Sunday or Monday)
-		shouldStartMonday: PropTypes.bool,
-	}
-
+export default class HeatMapDate extends React.PureComponent<Props, State> {
+	private ID: String
+	private IDLegend: String
 	/**
 	 * Set a default value to unrequired props
 	 */
@@ -63,7 +66,6 @@ export default class HeatMapDate extends PureComponent {
 		displayLegend: true,
 		rectWidth: 10,
 		defaultColor: "#cdcdcd",
-		transition: -1,
 		backgroundColor: "#fff",
 		textColor: "#000",
 		radius: 0,
@@ -74,7 +76,7 @@ export default class HeatMapDate extends PureComponent {
 		shouldStartMonday: false,
 	}
 
-	constructor(props) {
+	constructor(props: Props) {
 		super(props)
 		this.ID = Math.random()
 			.toString(36)
@@ -84,21 +86,11 @@ export default class HeatMapDate extends PureComponent {
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
 			.substr(0, 32)
-	}
-
-	state = {
-		svgElem: undefined,
-		svgLegend: undefined,
-		firstRender: true,
-	}
-
-	componentDidUpdate() {
-		// I use a setTimeout to prevent a component update that stop the transition.
-		setTimeout(() => {
-			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem) {
-				this.setState({ firstRender: false })
-			}
-		}, this.props.transition)
+		this.state = {
+			svgElem: undefined,
+			svgLegend: undefined,
+			firstRender: true,
+		}
 	}
 
 	render() {
@@ -112,7 +104,6 @@ export default class HeatMapDate extends PureComponent {
 			marginRight,
 			marginBottom,
 			displayLegend,
-			transition,
 			backgroundColor,
 			textColor,
 			radius,
@@ -130,10 +121,6 @@ export default class HeatMapDate extends PureComponent {
 		// Array of days for y axis
 		const daysName = !shouldStartMonday ? ["Sun", "Tue", "Thu", "Sat"] : ["Mon", "Wed", "Fri", "Sun"]
 		const dataset = []
-		let t = null
-		if (transition > 0 && firstRender) {
-			t = d3.transition().duration(transition)
-		}
 
 		// This is a possible workaround about tooltips that do not want to hide when data changes
 		// See https://github.com/Caged/d3-tip/issues/133
@@ -207,7 +194,7 @@ export default class HeatMapDate extends PureComponent {
 				return dateTmp.getTime() === bufferDate.getTime()
 			})
 			// If bufferDate < (startDate - 1 day) we set the square color like background to make that 'invisible'
-			let finalColor = backgroundColor
+			let finalColor: any = backgroundColor
 			let maxCount = null
 			// If there is no match we set the default color
 			if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
@@ -265,7 +252,7 @@ export default class HeatMapDate extends PureComponent {
 				.data(dataset)
 				.enter()
 				.append("rect")
-				.attr("fill-opacity", t !== null ? 0 : 1)
+				.attr("fill-opacity", 1)
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
@@ -293,8 +280,6 @@ export default class HeatMapDate extends PureComponent {
 				.on("click", (d, i) => {
 					onClick(d, i)
 				})
-
-			if (t !== null) rects.transition(t).attr("fill-opacity", 1)
 		}
 
 		let legendWidth = 0
@@ -320,17 +305,19 @@ export default class HeatMapDate extends PureComponent {
 					return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
 				})
 			svgLegendD3.call(tip)
+			const legendColors: Array<IColor> = [
+				{
+					color: defaultColor,
+					count: 0,
+					text: textDefaultColor ? textDefaultColor : "0",
+				},
+			]
+			colors.map(c => {
+				legendColors.push(c)
+			})
 			svgLegendD3
 				.selectAll("rect")
-				.data(
-					[
-						{
-							color: defaultColor,
-							count: 0,
-							text: textDefaultColor ? textDefaultColor : "0",
-						},
-					].concat(colors)
-				)
+				.data(legendColors)
 				.enter()
 				.append("rect")
 				.attr("width", rectWidth)
