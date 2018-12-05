@@ -24,8 +24,6 @@ interface Props {
 	marginBottom?: number
 	// Display a legend or not
 	displayLegend?: boolean
-	// Apply a transition when heatmap is rendering for the first time
-	transition?: number
 	// Apply a background color
 	backgroundColor?: string
 	// Apply a text color (unavailable on tooltip)
@@ -68,7 +66,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		displayLegend: true,
 		rectWidth: 10,
 		defaultColor: "#cdcdcd",
-		transition: -1,
 		backgroundColor: "#fff",
 		textColor: "#000",
 		radius: 0,
@@ -96,15 +93,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		}
 	}
 
-	/* componentDidUpdate() {
-		// I use a setTimeout to prevent a component update that stop the transition.
-		setTimeout(() => {
-			if (this.props.transition > 0 && this.state.firstRender && this.state.svgElem) {
-				this.setState({ firstRender: false })
-			}
-		}, this.props.transition)
-	} */
-
 	render() {
 		const {
 			startDate,
@@ -116,7 +104,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			marginRight,
 			marginBottom,
 			displayLegend,
-			transition,
 			backgroundColor,
 			textColor,
 			radius,

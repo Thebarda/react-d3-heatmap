@@ -9,7 +9,6 @@
     "allowJs": true,
     "moduleResolution": "node",
     "noEmit": true,
-    "isolatedModules": true,
     "esModuleInterop": true
   },
   "include": [

@@ -11,6 +11,22 @@
     "transpile": "rm -rf dist && babel src -d dist --copy-files --extensions '.ts,.tsx'",
     "prepublishOnly": "npm run transpile"
   },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/lib/"
+    ],
+    "testRegex": "(/__tests__/.*|\\-(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thebarda/react-d3-heatmap.git"
@@ -29,7 +45,7 @@
   "homepage": "https://github.com/Thebarda/react-d3-heatmap#readme",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "@types/jest": "^18.1.1",
+    "@types/jest": "^23.3.10",
     "@types/node": "^7.0.5",
     "@types/react": "^16.7.13",
     "@types/react-dom": "^16.0.11",
@@ -55,12 +71,14 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "awesome-typescript-loader": "^5.2.1",
     "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
@@ -70,18 +88,14 @@
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-test-renderer": "^16.5.2",
+    "react-test-renderer": "^16.6.3",
     "regenerator-runtime": "^0.12.1",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.0",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.1.6",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.0"
-  },
-  "jest": {
-    "setupFiles": [
-      "jest-prop-type-error"
-    ]
   }
 }
