@@ -12,4 +12,4 @@ dist/__tests__
 dist/app.html
 dist/app.js
 dist/styles/app.css
-dist/components/HeatMap.ts
+dist/components/HeatMap.js

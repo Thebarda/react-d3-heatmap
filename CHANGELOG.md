@@ -1,3 +1,8 @@
+# 1.1.0
+
+Enhancement:
+  - Support typescript 🎉
+
 # 1.0.9
 
 New Feature:
