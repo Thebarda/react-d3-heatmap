@@ -9,7 +9,7 @@ install:
   - npm i
 
 script:
-  - npm run prrtify
+  - npm run pretify
   - npm run tests
   - npm run transpile
 
