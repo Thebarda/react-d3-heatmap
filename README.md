@@ -49,7 +49,6 @@ You can change these props :
 |marginRight|Space between two squares on x axis|`Number`|`false`|`4`
 |marginBottom|Space between two squares on y axis|`Number`|`false`|`4`
 |displayLegend|Display or not a legend|`Boolean`|`false`|`true`
-|transition|Add a fade in transition. Must be greater then 0 | `Number`|`false`|`-1`
 |backgroundColor|Custom background color (ex: `"#2323232"`)|`String`|`false`|`"#fff"`
 |textColor|Custom text color (ex: `"#00ff00"`)|`String`|`false`|`"#000"`
 |radius|Apply a radius on each square|`Number`|`false`|`0`
