@@ -12,12 +12,12 @@ const cleanPlugin = new CleanWebpackPlugin(["dist"])
 module.exports = {
 	mode: "development",
 	entry: {
-		app: "./src/index.ts",
+		app: "./src/app.tsx",
 		vendor: ["react", "react-dom"],
 	},
 	output: {
-		path: path.join(__dirname, "dist"),
-		filename: "[name].js",
+		path: path.resolve("dist"),
+		filename: "index.js",
 	},
 	plugins: [cleanPlugin, htmlPlugin],
 	resolve: {
@@ -26,11 +26,8 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(ts|tsx)$/,
-				exclude: /node_modules/,
-				use: {
-					loader: "ts-loader",
-				},
+				test: /\.tsx?$/,
+				loader: "awesome-typescript-loader",
 			},
 			{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
 			{

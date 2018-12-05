@@ -7,5 +7,5 @@
     "printWidth": 120,
     "jsxBracketSameLine": true,
     "arrowParens": "avoid",
-    "parser": "flow"
+    "parser": "typescript"
 }

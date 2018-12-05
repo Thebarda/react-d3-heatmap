@@ -4,16 +4,14 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "commonjs",
-    "target": "es5",
-    "jsx": "react"
+    "target": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true
   },
-  "exclude": [
-    "node_modules",
-    "webpack",
-    "build",
-    "dist",
-    "coverage"
-  ],
   "include": [
     "./src/**/*"
   ]

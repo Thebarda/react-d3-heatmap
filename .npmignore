@@ -8,3 +8,8 @@ examples
 webpack.config.js
 webpack-dev.config.js
 src
+dist/__tests__
+dist/app.html
+dist/app.js
+dist/styles/app.css
+dist/components/HeatMap.ts

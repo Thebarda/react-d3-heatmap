@@ -1,14 +1,12 @@
-export namespace Interfaces {
-	export interface IPoint {
-		date: Date;
-		count: number;
-	}
+export interface IPoint {
+	date: Date
+	count: number
+}
 
-	export interface IColor {
-		count: number,
-		color: string,
-		text?: string
-	}
+export interface IColor {
+	count: number
+	color: string
+	text?: string
 }
 
 /**
@@ -18,12 +16,12 @@ export namespace Interfaces {
  * @param {Date} nb : Numbers of data generated
  * @returns An Array of data(Object{date: Date, count: Number}). The length of array is equal to nb params
  */
-export function setData(dateStart: Date, dateEnd: Date, nb: number): Interfaces.IPoint[] {
-	const data = []
-	const dates = []
+export function setData(dateStart: Date, dateEnd: Date, nb: number): IPoint[] {
+	const data: Array<IPoint> = []
+	const dates: Array<Date> = []
 	for (let i = 0; i < nb; i++) {
 		let date = randomDate(dateStart, dateEnd)
-		while (dates.includes(dates)) {
+		while (dates.includes(date)) {
 			date = randomDate(dateStart, dateEnd)
 		}
 		dates.push(date)
@@ -48,7 +46,7 @@ function randomDate(start: Date, end: Date): Date {
  * @param {Array[Date]} dates
  * @returns an array of Object{ date: Date, count: Number}
  */
-export function convertDateArrToObjectArr(dates: Date[]): Interfaces.IPoint[] {
+export function convertDateArrToObjectArr(dates: Date[]): IPoint[] {
 	const result = []
 	dates.map(date => {
 		const dateTmp = new Date(date).setHours(0, 0, 0, 0)
