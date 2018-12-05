@@ -4,6 +4,8 @@ A simple React heat map to visualize your data between two dates using d3.js
 
 This heat map will display squares inside SVG. A square represent a day.
 
+Now, it supports Typescript 🎉
+
 # Demo
 
 [Here is a preview](https://codesandbox.io/s/wnk771y0m7?view=preview)
