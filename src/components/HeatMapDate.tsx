@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as d3 from "d3"
-import { IPoint, IColor } from '../utils'
+import { IPoint, IColor } from "../utils"
 import d3Tip from "d3-tip"
 
 interface Props {
@@ -199,7 +199,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			// If there is no match we set the default color
 			if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
 				finalColor = defaultColor
-			} else if(bufferDate.getTime()>=startDateYesterday.getTime()) {
+			} else if (bufferDate.getTime() >= startDateYesterday.getTime()) {
 				finalColor = colors.filter(c => c.count <= objMatch.count)
 				if (finalColor.length === 0) {
 					finalColor = defaultColor
@@ -348,7 +348,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				style={{
 					width: legendWidth > svgWidth ? legendWidth : svgWidth + "px",
 					height: "auto",
-					backgroundColor: backgroundColor
+					backgroundColor: backgroundColor,
 				}}
 				id="react-d3-heatMap">
 				<svg

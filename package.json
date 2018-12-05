@@ -7,7 +7,7 @@
     "test": "jest src/__tests__ --coverage",
     "tests": "npm run test -- -u",
     "start": "webpack-dev-server --config webpack-dev.config.js --hot --inline --open --port 3000",
-    "lint": "prettier --write 'src/**/*.js' && prettier --write 'src/**/*.ts' && prettier --write 'src/**/*.tsx'",
+    "pretify": "prettier --write 'src/**/*.ts' && prettier --write 'src/**/*.tsx'",
     "transpile": "rm -rf dist && babel src -d dist --copy-files --extensions '.ts,.tsx'",
     "prepublishOnly": "npm run transpile"
   },
