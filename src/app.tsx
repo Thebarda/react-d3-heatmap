@@ -76,7 +76,6 @@ class App extends React.Component<Props, State> {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					transition={1}
 					radius={8}
 					classnames={"border"}
 					displayYear
@@ -90,7 +89,6 @@ class App extends React.Component<Props, State> {
 					marginRight={15}
 					marginBottom={12}
 					rectWidth={15}
-					transition={1}
 					radius={4}
 					classnames={"border"}
 					onClick={(d, i) => {
@@ -110,7 +108,6 @@ class App extends React.Component<Props, State> {
 					data={data2}
 					colors={colors2}
 					rectWidth={15}
-					transition={1}
 					textDefaultColor={"0-1"}
 					radius={4}
 					classnames={"border"}
