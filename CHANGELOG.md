@@ -1,3 +1,8 @@
+# 1.1.1
+
+Security : 
+  - Resolve vulnerability alert from `webpack-dev-server`. See vulnerability [Here](https://www.npmjs.com/advisories/725)
+
 # 1.1.0
 
 Enhancement:
