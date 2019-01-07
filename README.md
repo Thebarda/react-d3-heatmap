@@ -60,6 +60,7 @@ You can change these props :
 |onMouseEnter|Execute a callback function when mouse entering in a square. Params: `(data, index)`|`Function`|`false`|`{}`
 |onMouseLeave|Execute a callback function when mouse leaving a square. Params: `(data, index)`|`Function`|`false`|`{}`
 |shouldStartMonday|Usually heatmap starts on Sunday but you can start it on Monday|`Boolean`|`false`|`false`
+|monthSpace|Change space between month blocks|`Number`|`false`|`0`
 
 # Author
 
