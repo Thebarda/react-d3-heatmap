@@ -10,7 +10,7 @@ Now, it supports Typescript 🎉
 
 [Here is a preview](https://codesandbox.io/s/wnk771y0m7?view=preview)
 Or
-[View with the whole code](https://codesandbox.io/s/wnk771y0m7)
+[View with the whole code](https://wnk771y0m7.codesandbox.io)
 
 # Installation
 
