@@ -8,9 +8,9 @@ Now, it supports Typescript 🎉
 
 # Demo
 
-[Here is a preview](https://codesandbox.io/s/wnk771y0m7?view=preview)
+[Here is a preview](https://wnk771y0m7.codesandbox.io)
 Or
-[View with the whole code](https://wnk771y0m7.codesandbox.io)
+[View with the whole code](https://codesandbox.io/s/wnk771y0m7o)
 
 # Installation
 
