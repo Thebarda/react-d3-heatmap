@@ -8,9 +8,9 @@ Now, it supports Typescript 🎉
 
 # Demo
 
-[Here is a preview](https://wnk771y0m7.codesandbox.io){:target="_blank"}
+<a href="https://wnk771y0m7.codesandbox.io" target="_blank">Here is a preview</a>
 Or
-[View with the whole code](https://codesandbox.io/s/wnk771y0m7){:target="_blank"}
+<a href="https://codesandbox.io/s/wnk771y0m7" target="_blank">View with the whole code</a>
 
 # Installation
 
