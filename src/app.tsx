@@ -73,9 +73,7 @@ class App extends React.Component<Props, State> {
 					endDate={endDate}
 					data={data}
 					colors={colors}
-					marginRight={15}
-					marginBottom={12}
-					rectWidth={15}
+					rectWidth={14}
 					radius={8}
 					classnames={"border"}
 					displayYear
@@ -90,6 +88,7 @@ class App extends React.Component<Props, State> {
 					marginBottom={12}
 					rectWidth={15}
 					radius={4}
+					monthSpace={14}
 					classnames={"border"}
 					onClick={(d, i) => {
 						console.log("click", d, i)
@@ -107,7 +106,8 @@ class App extends React.Component<Props, State> {
 					endDate={endDate2}
 					data={data2}
 					colors={colors2}
-					rectWidth={15}
+					rectWidth={14}
+					monthSpace={15}
 					textDefaultColor={"0-1"}
 					radius={4}
 					classnames={"border"}

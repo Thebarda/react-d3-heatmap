@@ -42,6 +42,8 @@ interface Props {
 	onMouseLeave?: Function
 	// Change week-day to start (Sunday or Monday)
 	shouldStartMonday?: boolean
+	// Change month space
+	monthSpace?: number
 }
 
 interface State {
@@ -74,6 +76,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		onMouseLeave: () => {},
 		onMouseEnter: () => {},
 		shouldStartMonday: false,
+		monthSpace: 0,
 	}
 
 	constructor(props: Props) {
@@ -114,6 +117,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			onMouseLeave,
 			textDefaultColor,
 			shouldStartMonday,
+			monthSpace,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of months for x axis
@@ -149,41 +153,23 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		bufferDate.setHours(0, 0, 0, 0)
 		// Number of day from bufferDate to endDate
 		const nbDayDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24
-		const svgWidth = (rectWidth + marginRight) * (nbDayDiff / 7) + 70
-		svg.attr("width", svgWidth).attr("height", (rectWidth + marginBottom) * 7 + 50)
-
-		if (noMonthName) {
-			const prefix = displayYear
-				? new Date(bufferDate)
-						.getFullYear()
-						.toString()
-						.substring(2, 4) + "/"
-				: ""
-			const prefixWidth = displayYear ? 25 : 0
-			svg.append("text")
-				.text(prefix + monthsName[startDate.getMonth()])
-				.attr("x", () => {
-					return Math.floor(0 / 7) * (rectWidth + marginRight) + 32 - prefixWidth
-				})
-				.attr("y", 18)
-				.attr("font-size", 18)
-				.attr("fill", textColor)
-		}
+		const nbMonthsDiff = (endDate.getTime() - bufferDate.getTime()) / 1000 / 60 / 60 / 24 / 30
+		const legendWidth = (rectWidth + marginRight) * colors.length + 90 + 50
+		const svgWidth = (rectWidth + marginRight) * (nbDayDiff / 7) + nbMonthsDiff * monthSpace + 70
+		// Set width and height of SVG element
+		svg.attr("width", legendWidth > svgWidth ? legendWidth : svgWidth).attr(
+			"height",
+			(rectWidth + marginBottom) * 7 + 50
+		)
 
 		for (let i = 0; i < nbDayDiff; i++) {
-			const prefix = displayYear
-				? new Date(bufferDate)
-						.getFullYear()
-						.toString()
-						.substring(2, 4) + "/"
-				: ""
-			const prefixWidth = displayYear ? 25 : 0
 			if (i == 0 || i === 2 || i === 4 || i === 6) {
 				// Display day name as y axis
 				svg.append("text")
 					.text(daysName[i / 2])
 					.attr("y", (i % 7) * (rectWidth + marginBottom) + rectWidth / 6 + 32)
 					.attr("x", 0)
+					.attr("font-size", rectWidth + 3)
 					.attr("fill", textColor)
 			}
 			// Find the first data that match with current bufferDate
@@ -210,18 +196,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			const today = new Date(bufferDate.getTime())
 			// Finally, we push it to an Array that will be used by d3
 			dataset.push({ date: today, count: objMatch ? objMatch.count : maxCount || 0, color: finalColor, i })
-
-			if (bufferDate.getDate() === 1 && !noMonthName) {
-				// Display month name
-				svg.append("text")
-					.text(prefix + monthsName[bufferDate.getMonth()])
-					.attr("x", () => {
-						return Math.floor(i / 7) * (rectWidth + marginRight) + 32 - prefixWidth
-					})
-					.attr("y", 18)
-					.attr("font-size", 18)
-					.attr("fill", textColor)
-			}
 			bufferDate.setDate(bufferDate.getDate() + 1)
 		}
 
@@ -247,6 +221,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				})
 			svg.call(tip)
 			// Display all data squares
+			let monthOffset = 0
 			const rects = svg
 				.selectAll("rect")
 				.data(dataset)
@@ -257,7 +232,40 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
 				.attr("x", d => {
-					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40
+					const prefixYear = displayYear ? rectWidth : 0
+					const currentDate = new Date(d.date)
+					if (currentDate.getDate() === 1 && d.color !== backgroundColor) {
+						monthOffset++
+					}
+					if (
+						(currentDate.getDate() === 1 && d.color !== backgroundColor) ||
+						currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0)
+					) {
+						const prefixWidth = displayYear ? rectWidth : 0
+						const prefix = displayYear
+							? new Date(currentDate)
+									.getFullYear()
+									.toString()
+									.substring(2, 4) + "/"
+							: ""
+						// Display month name
+						if (!noMonthName || (noMonthName && monthOffset < 1) || monthSpace >= rectWidth) {
+							svg.append("text")
+								.text(prefix + monthsName[currentDate.getMonth()])
+								.attr("x", () => {
+									return (
+										Math.floor(d.i / 7) * (rectWidth + marginRight) +
+										40 +
+										monthOffset * monthSpace -
+										prefixYear
+									)
+								})
+								.attr("y", 18)
+								.attr("font-size", rectWidth + 3)
+								.attr("fill", textColor)
+						}
+					}
+					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40 + monthOffset * monthSpace
 				})
 				.attr("y", d => {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
@@ -282,19 +290,16 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				})
 		}
 
-		let legendWidth = 0
-
 		if (displayLegend) {
 			const svgLegendD3 = d3.select(svgLegend)
 			svgLegendD3.selectAll("*").remove()
-			legendWidth = (rectWidth + marginRight) * colors.length + 90 + 50
 			svgLegendD3.attr("width", legendWidth).attr("height", 30)
 			svgLegendD3
 				.append("text")
 				.text("Legend :")
 				.attr("x", 0)
 				.attr("y", 20)
-				.attr("font-size", 18)
+				.attr("font-size", rectWidth + 3)
 				.attr("fill", textColor)
 
 			const tip = d3Tip()
@@ -322,7 +327,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.append("rect")
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
-				.attr("x", (d, i) => (rectWidth + marginRight) * i + 80)
+				.attr("x", (d, i) => (rectWidth + marginRight) * i + rectWidth * 6)
 				.attr("y", 15 - rectWidth / 2)
 				.attr("rx", radius)
 				.attr("ry", radius)
