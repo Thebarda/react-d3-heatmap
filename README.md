@@ -1,5 +1,7 @@
 # react-d3-heatmap
 
+![Build](https://travis-ci.org/Thebarda/react-d3-heatmap.svg?branch=master)
+
 A simple React heat map to visualize your data between two dates using d3.js
 
 This heat map will display squares inside SVG. A square represent a day.
