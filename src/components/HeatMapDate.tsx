@@ -369,7 +369,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					height: "auto",
 					backgroundColor: backgroundColor,
 				}}
-				id="react-d3-heatMap">
+				id={"react-d3-heatMap-" + this.ID}>
 				<svg
 					style={{ display: "block" }}
 					ref={elem => {
