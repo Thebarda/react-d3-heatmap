@@ -82,10 +82,11 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 
 	constructor(props: Props) {
 		super(props)
-		if (props.rectWidth < 1) throw new Error("rectWidth must be greater than zero")
-		if (props.marginBottom < 1) throw new Error("marginBottom must be greater than zero")
-		if (props.marginRight < 1) throw new Error("marginRight must be greater than zero")
-		if (props.monthSpace < 1) throw new Error("monthSpace must be greater than zero")
+		if (props.rectWidth && props.rectWidth < 1) throw new Error("rectWidth must be greater than zero")
+		if (props.marginBottom && props.marginBottom < 1) throw new Error("marginBottom must be greater than zero")
+		if (props.marginRight && props.marginRight < 1) throw new Error("marginRight must be greater than zero")
+		if (props.monthSpace && props.monthSpace < 1) throw new Error("monthSpace must be greater than zero")
+		if (props.radius && props.radius < 1) throw new Error("radius must be greater than zero")
 		this.ID = Math.random()
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
@@ -193,7 +194,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			marginRight,
 		} = this.props
 		// Array of months for x axis
-		const firstMonthToDisplay = true
 		const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		if (dataset.length > 0) {
 			// I added an ID the tooltip because it's a workaround to prevent the tooltip won't hide when the component is updating
@@ -235,8 +235,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					if (
 						(currentDate.getDate() === 1 && d.color !== backgroundColor) ||
 						(currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0) &&
-							(currentDate.getDate() === 1 &&
-								(currentDate.getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24 > 21))
+							new Date(startDate).getDate() < 14)
 					) {
 						const prefix = displayYear
 							? new Date(currentDate)
