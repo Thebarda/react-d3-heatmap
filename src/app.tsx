@@ -74,9 +74,10 @@ class App extends React.Component<Props, State> {
 					data={data}
 					colors={colors}
 					rectWidth={14}
-					radius={8}
+					radius={-8}
 					classnames={"border"}
 					displayYear
+					monthSpace={6}
 				/>
 				<br />
 				<HeatMapDate
@@ -112,6 +113,7 @@ class App extends React.Component<Props, State> {
 					radius={4}
 					classnames={"border"}
 					shouldStartMonday
+					displayYear
 				/>
 			</div>
 		)

@@ -82,6 +82,10 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 
 	constructor(props: Props) {
 		super(props)
+		if (props.rectWidth < 1) throw new Error("rectWidth must be greater than zero")
+		if (props.marginBottom < 1) throw new Error("marginBottom must be greater than zero")
+		if (props.marginRight < 1) throw new Error("marginRight must be greater than zero")
+		if (props.monthSpace < 1) throw new Error("monthSpace must be greater than zero")
 		this.ID = Math.random()
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
@@ -189,6 +193,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			marginRight,
 		} = this.props
 		// Array of months for x axis
+		const firstMonthToDisplay = true
 		const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		if (dataset.length > 0) {
 			// I added an ID the tooltip because it's a workaround to prevent the tooltip won't hide when the component is updating
@@ -229,9 +234,10 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					}
 					if (
 						(currentDate.getDate() === 1 && d.color !== backgroundColor) ||
-						currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0)
+						(currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0) &&
+							(currentDate.getDate() === 1 &&
+								(currentDate.getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24 > 21))
 					) {
-						const prefixWidth = displayYear ? rectWidth : 0
 						const prefix = displayYear
 							? new Date(currentDate)
 									.getFullYear()
@@ -239,21 +245,19 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 									.substring(2, 4) + "/"
 							: ""
 						// Display month name
-						if (!noMonthName || (noMonthName && monthOffset < 1) || monthSpace >= rectWidth) {
-							svg.append("text")
-								.text(prefix + monthsName[currentDate.getMonth()])
-								.attr("x", () => {
-									return (
-										Math.floor(d.i / 7) * (rectWidth + marginRight) +
-										40 +
-										monthOffset * monthSpace -
-										prefixYear
-									)
-								})
-								.attr("y", 18)
-								.attr("font-size", rectWidth + 3)
-								.attr("fill", textColor)
-						}
+						svg.append("text")
+							.text(prefix + monthsName[currentDate.getMonth()])
+							.attr("x", () => {
+								return (
+									Math.floor(d.i / 7) * (rectWidth + marginRight) +
+									40 +
+									monthOffset * monthSpace -
+									prefixYear
+								)
+							})
+							.attr("y", 18)
+							.attr("font-size", rectWidth + 3)
+							.attr("fill", textColor)
 					}
 					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40 + monthOffset * monthSpace
 				})
@@ -291,16 +295,9 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			rectWidth,
 			marginRight,
 			marginBottom,
-			displayLegend,
 			backgroundColor,
 			textColor,
-			radius,
 			classnames,
-			displayYear,
-			onClick,
-			onMouseEnter,
-			onMouseLeave,
-			textDefaultColor,
 			shouldStartMonday,
 			monthSpace,
 		} = this.props
