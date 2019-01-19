@@ -82,11 +82,11 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 
 	constructor(props: Props) {
 		super(props)
-		if (props.rectWidth && props.rectWidth < 1) throw new Error("rectWidth must be greater than zero")
-		if (props.marginBottom && props.marginBottom < 1) throw new Error("marginBottom must be greater than zero")
-		if (props.marginRight && props.marginRight < 1) throw new Error("marginRight must be greater than zero")
-		if (props.monthSpace && props.monthSpace < 1) throw new Error("monthSpace must be greater than zero")
-		if (props.radius && props.radius < 1) throw new Error("radius must be greater than zero")
+		if (props.rectWidth && props.rectWidth < 0) throw new Error("rectWidth must be greater than zero")
+		if (props.marginBottom && props.marginBottom < 0) throw new Error("marginBottom must be greater than zero")
+		if (props.marginRight && props.marginRight < 0) throw new Error("marginRight must be greater than zero")
+		if (props.monthSpace && props.monthSpace < 0) throw new Error("monthSpace must be greater than zero")
+		if (props.radius && props.radius < 0) throw new Error("radius must be greater than zero")
 		this.ID = Math.random()
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
