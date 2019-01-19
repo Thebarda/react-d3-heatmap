@@ -1,6 +1,6 @@
 {
   "name": "react-d3-heatmap",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A set of components to display data as heat map",
   "main": "dist/index.js",
   "scripts": {

@@ -1,3 +1,14 @@
+# 1.1.2
+
+New Feature : 
+  - monthSpace : You can change space between months
+
+Enhancement : 
+  - Improve months display
+
+Other : 
+  - Refactor code
+
 # 1.1.1
 
 Security : 
