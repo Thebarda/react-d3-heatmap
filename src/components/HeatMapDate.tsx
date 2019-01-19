@@ -82,6 +82,11 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 
 	constructor(props: Props) {
 		super(props)
+		if (props.rectWidth && props.rectWidth < 1) throw new Error("rectWidth must be greater than zero")
+		if (props.marginBottom && props.marginBottom < 1) throw new Error("marginBottom must be greater than zero")
+		if (props.marginRight && props.marginRight < 1) throw new Error("marginRight must be greater than zero")
+		if (props.monthSpace && props.monthSpace < 1) throw new Error("monthSpace must be greater than zero")
+		if (props.radius && props.radius < 1) throw new Error("radius must be greater than zero")
 		this.ID = Math.random()
 			.toString(36)
 			.replace(/[^a-z]+/g, "")
@@ -229,9 +234,9 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					}
 					if (
 						(currentDate.getDate() === 1 && d.color !== backgroundColor) ||
-						currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0)
+						(currentDate.getTime() === new Date(startDate).setHours(0, 0, 0, 0) &&
+							new Date(startDate).getDate() < 14)
 					) {
-						const prefixWidth = displayYear ? rectWidth : 0
 						const prefix = displayYear
 							? new Date(currentDate)
 									.getFullYear()
@@ -239,21 +244,19 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 									.substring(2, 4) + "/"
 							: ""
 						// Display month name
-						if (!noMonthName || (noMonthName && monthOffset < 1) || monthSpace >= rectWidth) {
-							svg.append("text")
-								.text(prefix + monthsName[currentDate.getMonth()])
-								.attr("x", () => {
-									return (
-										Math.floor(d.i / 7) * (rectWidth + marginRight) +
-										40 +
-										monthOffset * monthSpace -
-										prefixYear
-									)
-								})
-								.attr("y", 18)
-								.attr("font-size", rectWidth + 3)
-								.attr("fill", textColor)
-						}
+						svg.append("text")
+							.text(prefix + monthsName[currentDate.getMonth()])
+							.attr("x", () => {
+								return (
+									Math.floor(d.i / 7) * (rectWidth + marginRight) +
+									40 +
+									monthOffset * monthSpace -
+									prefixYear
+								)
+							})
+							.attr("y", 18)
+							.attr("font-size", rectWidth + 3)
+							.attr("fill", textColor)
 					}
 					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40 + monthOffset * monthSpace
 				})
@@ -291,16 +294,9 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			rectWidth,
 			marginRight,
 			marginBottom,
-			displayLegend,
 			backgroundColor,
 			textColor,
-			radius,
 			classnames,
-			displayYear,
-			onClick,
-			onMouseEnter,
-			onMouseLeave,
-			textDefaultColor,
 			shouldStartMonday,
 			monthSpace,
 		} = this.props
