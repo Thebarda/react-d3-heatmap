@@ -1,5 +1,7 @@
 import { IPoint, IColor } from "../../utils"
 
+export const noDisplayColor = "#aaaaaa22"
+
 export const generateD3Dataset = (
 	nbDayDiff: number,
 	svg: any,
@@ -12,9 +14,20 @@ export const generateD3Dataset = (
 	backgroundColor: string,
 	startDateYesterday: Date,
 	defaultColor: string,
-	colors: IColor[]
+	colors: IColor[],
+	rangeDisplayData: Array<Date>
 ) => {
 	const dataset = []
+	let startDateDisplayData = rangeDisplayData && rangeDisplayData[0] ? new Date(rangeDisplayData[0]) : null
+	if (startDateDisplayData) startDateDisplayData.setHours(0, 0, 0, 0)
+	let endDateDisplayData = rangeDisplayData && rangeDisplayData[1] ? new Date(rangeDisplayData[1]) : null
+	if (endDateDisplayData) endDateDisplayData.setHours(0, 0, 0, 0)
+	if (endDateDisplayData && startDateDisplayData && startDateDisplayData.getTime() > endDateDisplayData.getTime()) {
+		const tmpDate = new Date(startDateDisplayData)
+		startDateDisplayData = new Date(endDateDisplayData)
+		endDateDisplayData = new Date(tmpDate)
+	}
+
 	for (let i = 0; i < nbDayDiff; i++) {
 		if (i == 0 || i === 2 || i === 4 || i === 6) {
 			// Display day name as y axis
@@ -35,8 +48,15 @@ export const generateD3Dataset = (
 		// If bufferDate < (startDate - 1 day) we set the square color like background to make that 'invisible'
 		let finalColor: any = backgroundColor
 		let maxCount = null
+
+		if (
+			(startDateDisplayData && startDateDisplayData.getTime() > bufferDate.getTime()) ||
+			(endDateDisplayData && endDateDisplayData.getTime() < bufferDate.getTime())
+		) {
+			finalColor = noDisplayColor
+		}
 		// If there is no match we set the default color
-		if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
+		else if (objMatch === undefined && bufferDate.getTime() >= startDateYesterday.getTime()) {
 			finalColor = defaultColor
 		} else if (bufferDate.getTime() >= startDateYesterday.getTime()) {
 			finalColor = colors.filter(c => c.count <= objMatch.count)
