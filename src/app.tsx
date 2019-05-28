@@ -37,6 +37,8 @@ interface State {
 	endDate2: Date
 	startDate: Date
 	startDate2: Date
+	startDateDisplayData: Date
+	endDateDisplayData: Date
 }
 
 /**
@@ -54,6 +56,8 @@ class App extends React.Component<Props, State> {
 			startDate,
 			startDate2,
 			data2,
+			startDateDisplayData: new Date("2018-10-15T17:41:27"),
+			endDateDisplayData: new Date("2019-02-21T23:01:50"),
 		}
 		this.interval = setInterval(() => {
 			this.setState({ data: setData(this.state.startDate, this.state.endDate, 231) })
@@ -65,7 +69,17 @@ class App extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { startDate, startDate2, endDate, endDate2, data, data2, colors } = this.state
+		const {
+			startDate,
+			startDate2,
+			endDate,
+			endDate2,
+			data,
+			data2,
+			colors,
+			startDateDisplayData,
+			endDateDisplayData,
+		} = this.state
 		return (
 			<div>
 				<HeatMapDate
@@ -77,6 +91,7 @@ class App extends React.Component<Props, State> {
 					classnames={"border"}
 					displayYear
 					monthSpace={6}
+					rangeDisplayData={[endDateDisplayData, startDateDisplayData]}
 				/>
 				<br />
 				<HeatMapDate

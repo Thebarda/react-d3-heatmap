@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as d3 from "d3"
 import { IPoint, IColor } from "../utils"
-import { generateD3Dataset } from "./helpers/HeatMapDate"
+import { generateD3Dataset, noDisplayColor } from "./helpers/HeatMapDate"
 import d3Tip from "d3-tip"
 
 interface Props {
@@ -45,6 +45,8 @@ interface Props {
 	shouldStartMonday?: boolean
 	// Change month space
 	monthSpace?: number
+	// Range that allows to display data
+	rangeDisplayData?: Array<Date>
 }
 
 interface State {
@@ -78,6 +80,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		onMouseEnter: () => {},
 		shouldStartMonday: false,
 		monthSpace: 0,
+		rangeDisplayData: [],
 	}
 
 	constructor(props: Props) {
@@ -267,7 +270,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("rx", radius)
 				.attr("ry", radius)
 				.on("mouseover", function(d, i) {
-					if (d.color !== backgroundColor) {
+					if (d.color !== backgroundColor && d.color !== noDisplayColor) {
 						tip.show(d, this)
 						d3.select(this).attr("stroke", "black")
 					}
@@ -299,6 +302,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			classnames,
 			shouldStartMonday,
 			monthSpace,
+			rangeDisplayData,
 		} = this.props
 		const { svgElem, svgLegend, firstRender } = this.state
 		// Array of days for y axis
@@ -350,7 +354,8 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			backgroundColor,
 			startDateYesterday,
 			defaultColor,
-			colors
+			colors,
+			rangeDisplayData
 		)
 
 		this.renderLegend(svgLegend, legendWidth)
