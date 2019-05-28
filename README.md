@@ -63,6 +63,7 @@ You can change these props :
 |onMouseLeave|Execute a callback function when mouse leaving a square. Params: `(data, index)`|`Function`|`false`|`{}`
 |shouldStartMonday|Usually heatmap starts on Sunday but you can start it on Monday|`Boolean`|`false`|`false`
 |monthSpace|Change space between month blocks|`Number`|`false`|`0`
+|rangeDisplayData|Display data between two dates. Tip: You can create an array of one or two dates <br > Example: `[new Date("2018-10-15T17:41:27"), new Date("2019-02-21T23:01:50")]`, `[new Date("2019-02-21T23:01:50")]`, `[null, new Date("2019-02-21T23:01:50")]` |`Array[Date]`|`false`|`[]`
 
 # Author
 

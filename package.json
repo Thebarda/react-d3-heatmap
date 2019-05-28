@@ -1,7 +1,7 @@
 {
   "name": "react-d3-heatmap",
-  "version": "1.1.3",
-  "description": "A set of components to display data as heat map",
+  "version": "1.1.4",
+  "description": "A customizable calendar heatmap",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest src/__tests__ --coverage",
