@@ -92,6 +92,7 @@ class App extends React.Component<Props, State> {
 					displayYear
 					monthSpace={6}
 					rangeDisplayData={[endDateDisplayData, startDateDisplayData]}
+					fadeAnimation={{ animate: true, duration: 1 }}
 				/>
 				<br />
 				<HeatMapDate
@@ -105,6 +106,7 @@ class App extends React.Component<Props, State> {
 					radius={4}
 					monthSpace={14}
 					classnames={"border"}
+					fadeAnimation={{ animate: false }}
 					onClick={(d, i) => {
 						console.log("click", d, i)
 					}}
@@ -128,6 +130,7 @@ class App extends React.Component<Props, State> {
 					classnames={"border"}
 					shouldStartMonday
 					displayYear
+					fadeAnimation={{ animate: true, duration: 5 }}
 				/>
 			</div>
 		)

@@ -9,6 +9,11 @@ export interface IColor {
 	text?: string
 }
 
+export interface IAnimation {
+	animate: Boolean
+	duration?: number
+}
+
 /**
  * Generate data test
  * @param {Date} dateStart
