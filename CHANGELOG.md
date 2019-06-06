@@ -1,7 +1,10 @@
-# 1.1.4
+# 1.1.5
 
 New Feature : 
   - fadeAnimation : Control fade in animation. 
+
+Other :
+  - Apply patches for High severities
 
 # 1.1.4
 
