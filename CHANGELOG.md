@@ -1,8 +1,12 @@
 # 1.1.4
 
 New Feature : 
-  - rangeDisplaData : Display data between two dates. 
+  - fadeAnimation : Control fade in animation. 
 
+# 1.1.4
+
+New Feature : 
+  - rangeDisplaData : Display data between two dates. 
 
 # 1.1.3
 

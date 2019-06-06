@@ -1,6 +1,6 @@
 {
   "name": "react-d3-heatmap",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A customizable calendar heatmap",
   "main": "dist/index.js",
   "scripts": {
