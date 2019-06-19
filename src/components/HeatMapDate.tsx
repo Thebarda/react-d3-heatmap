@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as d3 from "d3"
-import { IPoint, IColor, IAnimation } from "../utils"
+import {IPoint,IColor,IAnimation,ID3Data} from "HeatMap"
 import { generateD3Dataset, noDisplayColor } from "./helpers/HeatMapDate"
 import d3Tip from "d3-tip"
 
@@ -82,7 +82,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		onMouseEnter: () => {},
 		shouldStartMonday: false,
 		monthSpace: 0,
-		rangeDisplayData: [],
+		rangeDisplayData: [new Date(1970, 1, 1)],
 		fadeAnimation: { animate: true, duration: 0.4 },
 	}
 
@@ -108,7 +108,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		}
 	}
 
-	private cleanHeatMap(svg: any) {
+	private cleanHeatMap(svg: d3.Selection<SVGSVGElement,{},null,undefined>) {
 		d3.select(".d3-tip." + this.ID).remove()
 		d3.select(".d3-tip." + this.IDLegend).remove()
 		// We remove all elements (rect + text) to properly update the svg
@@ -138,10 +138,10 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("y", 20)
 				.attr("font-size", rectWidth + 3)
 				.attr("fill", textColor)
-			const tip = d3Tip()
+			const tip: any = d3Tip()
 				.attr("class", "d3-tip " + this.IDLegend)
 				.offset([-8, 0])
-				.html(d => {
+				.html((d: ID3Data) => {
 					const displ = d.text ? d.text : d.count.toString()
 					return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
 				})
@@ -203,10 +203,10 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		if (dataset.length > 0) {
 			// I added an ID the tooltip because it's a workaround to prevent the tooltip won't hide when the component is updating
-			const tip = d3Tip()
+			const tip: any = d3Tip()
 				.attr("class", "d3-tip " + this.ID)
 				.offset([-8, 0])
-				.html(d => {
+				.html((d: ID3Data) => {
 					if (d.color !== backgroundColor) {
 						return (
 							"<div style={{ fontSize: '15' }}>" +
@@ -232,7 +232,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
-				.attr("x", d => {
+				.attr("x", (d: ID3Data) => {
 					const prefixYear = displayYear ? rectWidth : 0
 					const currentDate = new Date(d.date)
 					if (currentDate.getDate() === 1 && d.color !== backgroundColor) {
@@ -266,25 +266,25 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					}
 					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40 + monthOffset * monthSpace
 				})
-				.attr("y", d => {
+				.attr("y", (d: ID3Data) => {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
 				})
-				.attr("fill", d => d.color)
+				.attr("fill", (d: IColor) => d.color)
 				.attr("rx", radius)
 				.attr("ry", radius)
-				.on("mouseover", function(d, i) {
+				.on("mouseover", function(d: IColor, i: number) {
 					if (d.color !== backgroundColor && d.color !== noDisplayColor) {
 						tip.show(d, this)
 						d3.select(this).attr("stroke", "black")
 					}
 					onMouseEnter(d, i)
 				})
-				.on("mouseout", (d, i) => {
+				.on("mouseout", (d: Object, i: number) => {
 					tip.hide(d, this)
 					d3.selectAll("rect").attr("stroke", "none")
 					onMouseLeave(d, i)
 				})
-				.on("click", (d, i) => {
+				.on("click", (d: Object, i: number) => {
 					onClick(d, i)
 				})
 		}

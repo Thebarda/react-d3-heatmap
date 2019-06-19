@@ -1,4 +1,4 @@
-import { IPoint, IColor } from "../../utils"
+import {IPoint,IColor} from "HeatMap"
 
 export const noDisplayColor = "#aaaaaa22"
 

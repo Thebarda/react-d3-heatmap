@@ -1,7 +1,8 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import HeatMapDate from "./index"
-import { setData, IColor, IPoint } from "./utils"
+import {IColor,IPoint} from "HeatMap"
+import { setData } from './utils'
 import "./styles/app.css"
 //Here is the playground
 //You can test your code here
@@ -10,7 +11,7 @@ const endDate = new Date()
 const startDate = new Date()
 startDate.setFullYear(startDate.getFullYear() - 1)
 const data = setData(startDate, endDate, 231)
-const colors = []
+const colors: IColor[] = []
 colors.push({ count: 2, color: "#66ff33" })
 colors.push({ count: 3, color: "#99ff33" })
 colors.push({ count: 4, color: "#ccff33" })
@@ -21,7 +22,7 @@ colors.push({ count: 9, color: "#ff0000" })
 const startDate2 = new Date(2018, 11, 25)
 const endDate2 = new Date(2019, 0, 3)
 const data2 = setData(startDate2, endDate2, 9)
-const colors2 = []
+const colors2: IColor[] = []
 colors2.push({ count: 2, color: "#66ff33", text: "2-3" })
 colors2.push({ count: 4, color: "#ccff33", text: "4-5" })
 colors2.push({ count: 6, color: "#ffcc00", text: "6-7" })
@@ -107,13 +108,13 @@ class App extends React.Component<Props, State> {
 					monthSpace={14}
 					classnames={"border"}
 					fadeAnimation={{ animate: false }}
-					onClick={(d, i) => {
+					onClick={(d: Object, i: number) => {
 						console.log("click", d, i)
 					}}
-					onMouseEnter={(d, i) => {
+					onMouseEnter={(d: Object,i: number) => {
 						console.log("enter", d, i)
 					}}
-					onMouseLeave={(d, i) => {
+					onMouseLeave={(d: Object,i: number) => {
 						console.log("leave", d, i)
 					}}
 				/>

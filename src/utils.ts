@@ -1,18 +1,4 @@
-export interface IPoint {
-	date: Date
-	count: number
-}
-
-export interface IColor {
-	count: number
-	color: string
-	text?: string
-}
-
-export interface IAnimation {
-	animate: Boolean
-	duration?: number
-}
+import { IPoint } from 'HeatMap'
 
 /**
  * Generate data test
@@ -52,7 +38,7 @@ function randomDate(start: Date, end: Date): Date {
  * @returns an array of Object{ date: Date, count: Number}
  */
 export function convertDateArrToObjectArr(dates: Date[]): IPoint[] {
-	const result = []
+	const result: IPoint[] = []
 	dates.map(date => {
 		const dateTmp = new Date(date).setHours(0, 0, 0, 0)
 		if (!isNaN(dateTmp) && typeof dateTmp === "number") {
