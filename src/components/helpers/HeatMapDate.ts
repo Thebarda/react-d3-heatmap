@@ -1,20 +1,20 @@
-import {IPoint,IColor} from "HeatMap"
+import { Point, Color } from "HeatMap"
 
 export const noDisplayColor = "#aaaaaa22"
 
-export const generateD3Dataset = (
+export const generateD3Dataset: Array = (
 	nbDayDiff: number,
-	svg: any,
+	svg: SVGSVGElement,
 	daysName: string[],
 	rectWidth: number,
 	marginBottom: number,
 	textColor: string,
-	data: IPoint[],
+	data: Point[],
 	bufferDate: Date,
 	backgroundColor: string,
 	startDateYesterday: Date,
 	defaultColor: string,
-	colors: IColor[],
+	colors: Color[],
 	rangeDisplayData: Array<Date>
 ) => {
 	const dataset = []
@@ -46,8 +46,8 @@ export const generateD3Dataset = (
 			return dateTmp.getTime() === bufferDate.getTime()
 		})
 		// If bufferDate < (startDate - 1 day) we set the square color like background to make that 'invisible'
-		let finalColor: any = backgroundColor
-		let maxCount = null
+		let finalColor: string = backgroundColor
+		const maxCount = null
 
 		if (
 			(startDateDisplayData && startDateDisplayData.getTime() > bufferDate.getTime()) ||

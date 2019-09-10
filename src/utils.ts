@@ -1,4 +1,14 @@
-import { IPoint } from 'HeatMap'
+import { Point } from "HeatMap"
+
+/**
+ * Generate a random date between two dates
+ * @param {Date} start
+ * @param {Date} end
+ * @returns a random date
+ */
+function randomDate(start: Date, end: Date): Date {
+	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+}
 
 /**
  * Generate data test
@@ -7,8 +17,8 @@ import { IPoint } from 'HeatMap'
  * @param {Date} nb : Numbers of data generated
  * @returns An Array of data(Object{date: Date, count: Number}). The length of array is equal to nb params
  */
-export function setData(dateStart: Date, dateEnd: Date, nb: number): IPoint[] {
-	const data: Array<IPoint> = []
+export function setData(dateStart: Date, dateEnd: Date, nb: number): Point[] {
+	const data: Array<Point> = []
 	const dates: Array<Date> = []
 	for (let i = 0; i < nb; i++) {
 		let date = randomDate(dateStart, dateEnd)
@@ -23,22 +33,12 @@ export function setData(dateStart: Date, dateEnd: Date, nb: number): IPoint[] {
 }
 
 /**
- * Generate a random date between two dates
- * @param {Date} start
- * @param {Date} end
- * @returns a random date
- */
-function randomDate(start: Date, end: Date): Date {
-	return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-}
-
-/**
  * Convert an array of date to a n array of Object{ date: Date, count: Number}
  * @param {Array[Date]} dates
  * @returns an array of Object{ date: Date, count: Number}
  */
-export function convertDateArrToObjectArr(dates: Date[]): IPoint[] {
-	const result: IPoint[] = []
+export function convertDateArrToObjectArr(dates: Date[]): Point[] {
+	const result: Point[] = []
 	dates.map(date => {
 		const dateTmp = new Date(date).setHours(0, 0, 0, 0)
 		if (!isNaN(dateTmp) && typeof dateTmp === "number") {

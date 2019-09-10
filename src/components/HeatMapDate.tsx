@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as d3 from "d3"
-import {IPoint,IColor,IAnimation,ID3Data} from "HeatMap"
+import { Point, Color, Animation, D3Data } from "HeatMap"
 import { generateD3Dataset, noDisplayColor } from "./helpers/HeatMapDate"
 import d3Tip from "d3-tip"
 
@@ -10,9 +10,9 @@ interface Props {
 	// The 'visible' heatmap will end this date
 	endDate: Date
 	// The data that fill the heatmap. Must be an Array[{data: Date, count: Number}]
-	data: Array<IPoint>
+	data: Array<Point>
 	// Colors that apply a color on squares. Must be an Array[{count: Number, color: String}]
-	colors: Array<IColor>
+	colors: Array<Color>
 	// Apply a default color for dates whose count are too low to apply a color from 'colors'
 	defaultColor?: string
 	// Custom text for default color in tooltip legend
@@ -48,13 +48,12 @@ interface Props {
 	// Range that allows to display data
 	rangeDisplayData?: Array<Date>
 	// fade in animation properties
-	fadeAnimation?: IAnimation
+	fadeAnimation?: Animation
 }
 
 interface State {
 	svgElem: SVGSVGElement
 	svgLegend: SVGSVGElement
-	firstRender: Boolean
 }
 
 /**
@@ -62,8 +61,8 @@ interface State {
  * Each square is a day.
  */
 export default class HeatMapDate extends React.PureComponent<Props, State> {
-	private ID: String
-	private IDLegend: String
+	private ID: string
+	private IDLegend: string
 	/**
 	 * Set a default value to unrequired props
 	 */
@@ -77,9 +76,9 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		textColor: "#000",
 		radius: 0,
 		classnames: "",
-		onClick: () => {},
-		onMouseLeave: () => {},
-		onMouseEnter: () => {},
+		onClick: (): void => {},
+		onMouseLeave: (): void => {},
+		onMouseEnter: (): void => {},
 		shouldStartMonday: false,
 		monthSpace: 0,
 		rangeDisplayData: [new Date(1970, 1, 1)],
@@ -104,18 +103,17 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		this.state = {
 			svgElem: undefined,
 			svgLegend: undefined,
-			firstRender: true,
 		}
 	}
 
-	private cleanHeatMap(svg: d3.Selection<SVGSVGElement,{},null,undefined>) {
+	private cleanHeatMap(svg: d3.Selection<SVGSVGElement, {}, null, undefined>): void {
 		d3.select(".d3-tip." + this.ID).remove()
 		d3.select(".d3-tip." + this.IDLegend).remove()
 		// We remove all elements (rect + text) to properly update the svg
 		svg.selectAll("*").remove()
 	}
 
-	private renderLegend(svgLegend: SVGSVGElement, legendWidth: number) {
+	private renderLegend(svgLegend: SVGSVGElement, legendWidth: number): void {
 		const {
 			colors,
 			defaultColor,
@@ -141,12 +139,14 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			const tip: any = d3Tip()
 				.attr("class", "d3-tip " + this.IDLegend)
 				.offset([-8, 0])
-				.html((d: ID3Data) => {
-					const displ = d.text ? d.text : d.count.toString()
-					return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
-				})
+				.html(
+					(d: D3Data): string => {
+						const displ = d.text ? d.text : d.count.toString()
+						return "<div style={{ fontSize: '15' }}>" + displ + "</div>"
+					}
+				)
 			svgLegendD3.call(tip)
-			const legendColors: Array<IColor> = [
+			const legendColors: Array<Color> = [
 				{
 					color: defaultColor,
 					count: 0,
@@ -168,23 +168,26 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("rx", radius)
 				.attr("ry", radius)
 				.attr("fill", d => d.color)
-				.on("mouseover", function(d) {
+				.on("mouseover", function(d: Color): void {
 					if (d.color !== backgroundColor) {
 						tip.show(d, this)
 						d3.select(this).attr("stroke", textColor)
 					}
 				})
-				.on("mouseout", d => {
-					tip.hide(d, this)
-					d3.selectAll("rect").attr("stroke", "none")
-				})
+				.on(
+					"mouseout",
+					(d: Color): void => {
+						tip.hide(d, this)
+						d3.selectAll("rect").attr("stroke", "none")
+					}
+				)
 		} else {
 			const svgLegendD3 = d3.select(svgLegend)
 			svgLegendD3.attr("width", 0).attr("height", 0)
 		}
 	}
 
-	private renderHeatMap(dataset: any[], svg: any, noMonthName: boolean) {
+	private renderHeatMap(dataset: any[], svg: any): void {
 		const {
 			startDate,
 			rectWidth,
@@ -206,21 +209,23 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			const tip: any = d3Tip()
 				.attr("class", "d3-tip " + this.ID)
 				.offset([-8, 0])
-				.html((d: ID3Data) => {
-					if (d.color !== backgroundColor) {
-						return (
-							"<div style={{ fontSize: '15' }}>" +
-							d.date.getFullYear() +
-							"/" +
-							(d.date.getMonth() + 1) +
-							"/" +
-							d.date.getDate() +
-							" : " +
-							d.count +
-							"</div>"
-						)
-					} else return null
-				})
+				.html(
+					(d: D3Data): string => {
+						if (d.color !== backgroundColor) {
+							return (
+								"<div style={{ fontSize: '15' }}>" +
+								d.date.getFullYear() +
+								"/" +
+								(d.date.getMonth() + 1) +
+								"/" +
+								d.date.getDate() +
+								" : " +
+								d.count +
+								"</div>"
+							)
+						} else return null
+					}
+				)
 			svg.call(tip)
 			// Display all data squares
 			let monthOffset = 0
@@ -232,7 +237,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				.attr("width", rectWidth)
 				.attr("height", rectWidth)
 				.attr("class", "dayRect")
-				.attr("x", (d: ID3Data) => {
+				.attr("x", (d: D3Data) => {
 					const prefixYear = displayYear ? rectWidth : 0
 					const currentDate = new Date(d.date)
 					if (currentDate.getDate() === 1 && d.color !== backgroundColor) {
@@ -266,31 +271,31 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 					}
 					return Math.floor(d.i / 7) * (rectWidth + marginRight) + 40 + monthOffset * monthSpace
 				})
-				.attr("y", (d: ID3Data) => {
+				.attr("y", (d: D3Data) => {
 					return (d.i % 7) * (rectWidth + marginBottom) + 24
 				})
-				.attr("fill", (d: IColor) => d.color)
+				.attr("fill", (d: Color) => d.color)
 				.attr("rx", radius)
 				.attr("ry", radius)
-				.on("mouseover", function(d: IColor, i: number) {
+				.on("mouseover", function(d: Color, i: number) {
 					if (d.color !== backgroundColor && d.color !== noDisplayColor) {
 						tip.show(d, this)
 						d3.select(this).attr("stroke", "black")
 					}
 					onMouseEnter(d, i)
 				})
-				.on("mouseout", (d: Object, i: number) => {
+				.on("mouseout", (d: Color, i: number) => {
 					tip.hide(d, this)
 					d3.selectAll("rect").attr("stroke", "none")
 					onMouseLeave(d, i)
 				})
-				.on("click", (d: Object, i: number) => {
+				.on("click", (d: Color, i: number) => {
 					onClick(d, i)
 				})
 		}
 	}
 
-	render() {
+	render(): HTMLDivElement {
 		const {
 			startDate,
 			endDate,
@@ -308,7 +313,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 			rangeDisplayData,
 			fadeAnimation,
 		} = this.props
-		const { svgElem, svgLegend, firstRender } = this.state
+		const { svgElem, svgLegend } = this.state
 		// Array of days for y axis
 		const daysName = !shouldStartMonday ? ["Sun", "Tue", "Thu", "Sat"] : ["Mon", "Wed", "Fri", "Sun"]
 
@@ -319,13 +324,6 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 		this.cleanHeatMap(svg)
 		const tmpBufferDate = new Date(startDate)
 		const startDateYesterday = new Date(startDate)
-		// When want to display month on first column if difference between
-		// startDate and endDate less than 1 month
-		const noMonthName =
-			(startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) ||
-			(startDate.getMonth() == 11 &&
-				endDate.getMonth() === 0 &&
-				endDate.getFullYear() - startDate.getFullYear() === 1)
 		startDateYesterday.setDate(startDateYesterday.getDate() - 1)
 		// We set bufferDate to the previous Sunday (or Monday following 'shouldStartMonday' prop) of startDate.
 		tmpBufferDate.setDate(tmpBufferDate.getDate() - startDateYesterday.getDay())
@@ -364,7 +362,7 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 
 		this.renderLegend(svgLegend, legendWidth)
 
-		this.renderHeatMap(dataset, svg, noMonthName)
+		this.renderHeatMap(dataset, svg)
 
 		const styles = {
 			width: legendWidth > svgWidth ? legendWidth : svgWidth + "px",
@@ -384,12 +382,12 @@ export default class HeatMapDate extends React.PureComponent<Props, State> {
 				id={"react-d3-heatMap-" + this.ID}>
 				<svg
 					style={{ display: "block" }}
-					ref={elem => {
+					ref={(elem): void => {
 						if (!this.state.svgElem) this.setState({ svgElem: elem })
 					}}
 				/>
 				<svg
-					ref={elem => {
+					ref={(elem): void => {
 						if (!this.state.svgLegend) this.setState({ svgLegend: elem })
 					}}
 				/>

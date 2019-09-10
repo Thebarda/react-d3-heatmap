@@ -1,16 +1,24 @@
 import * as React from "react"
 import * as Enzyme from "enzyme"
+import { Point } from "HeatMap"
 import HeatMapDate from "../components/HeatMapDate"
-import { setData, IColor } from "../utils"
+import { setData, Color } from "../utils"
 import Adapter from "enzyme-adapter-react-16"
 
 Enzyme.configure({ adapter: new Adapter() })
 
-function setUp(yearStart, monthStart, dayStart, yearEnd, monthEnd, dayEnd, nb) {
+interface SetUp {
+	data: Array<Point>
+	color: Array<Color>
+	startDate: Date
+	endDate: Date
+}
+
+function setUp(yearStart, monthStart, dayStart, yearEnd, monthEnd, dayEnd, nb): SetUp {
 	const startDate = new Date(yearStart, monthStart - 1, dayStart + 1)
 	const endDate = new Date(yearEnd, monthEnd - 1, dayEnd + 1)
 	const data = setData(startDate, endDate, nb)
-	const colors: Array<IColor> = []
+	const colors: Array<Color> = []
 	colors.push({ count: 2, color: "#66ff33" })
 	colors.push({ count: 3, color: "#99ff33" })
 	colors.push({ count: 4, color: "#ccff33" })
